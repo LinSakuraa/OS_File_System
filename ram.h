@@ -11,7 +11,7 @@
 
 using namespace std;
 
-class INodeListInRam{
+class INodeListInRam {
 
 private:
     const int iNodeListCapacity = INODET_IN_RAM;
@@ -46,7 +46,7 @@ public:
 };
 
 // 文件打开项
-class FileOpenItem{
+class FileOpenItem {
 
 private:
     unsigned offSet = 0;
@@ -93,7 +93,7 @@ public:
 };
 
 // 系统文件打开表
-class FileOpenList{
+class FileOpenList {
 
 private:
     // 系统文件打开表最大项数
@@ -144,7 +144,7 @@ public:
     int getMode(int id);
 };
 
-class UserOpenItem{
+class UserOpenItem {
 
 private:
     int descriptor = -1; // 其实是文件的磁盘inode号
@@ -171,7 +171,7 @@ public:
     bool check();
 };
 
-class UserOpenList{
+class UserOpenList {
 
 private:
     string username = "";
@@ -207,7 +207,6 @@ public:
     // 计算某个文件打开了几次
     int count(int iNodeId);
 
-    //
     void show();
 };
 

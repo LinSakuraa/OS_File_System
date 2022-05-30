@@ -1,30 +1,30 @@
 //
 // Created by 22325 on 2022/5/30.
 //
+
 #include "os.h"
 
-void OS::printTitle()
-{
+void OS::printTitle() {
     string path = "";
     if(currentUser == "") {
         cout << "$/>";
         return;
     } else {
-        Directory* cur_dir;
+        Directory* curDir;
         int id;
         string name;
         int pid;
-        cur_dir = fileSys.users.getCurDir();
-        Directory* t = cur_dir;
-        id = cur_dir->getItem(".");
-        pid = cur_dir->getItem("..");
-        cur_dir = fileSys.returnToParent();
+        curDir = fileSys.users.getCurDir();
+        Directory* t = curDir;
+        id = curDir -> getItem(".");
+        pid = curDir -> getItem("..");
+        curDir = fileSys.returnToParent();
         while(pid != 0) {
             name = fileSys.superBlock.iNodeList.getInode(pid).dir.getFileName(id);
             path = name + "/" + path;
-            id = cur_dir->getItem(".");
-            pid = cur_dir->getItem("..");
-            cur_dir = fileSys.returnToParent();
+            id = curDir -> getItem(".");
+            pid = curDir -> getItem("..");
+            curDir = fileSys.returnToParent();
         }
         if(id != pid) {
             name = fileSys.superBlock.iNodeList.getInode(pid).dir.getFileName(id);

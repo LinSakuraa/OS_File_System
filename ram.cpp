@@ -5,17 +5,14 @@
 #include "ram.h"
 
 // 构造函数
-INodeListInRam::INodeListInRam()
-{
+INodeListInRam::INodeListInRam() {
     for(int i = 0; i < INODET_IN_RAM; i++)
         iNodeNum[i] = -1, fileLock[i] = 0;
 }
 
 // 获取空的内存i结点
-int INodeListInRam::getFreeNode()
-{
-    for(int i = 0; i < INODET_IN_RAM; i++)
-    {
+int INodeListInRam::getFreeNode() {
+    for(int i = 0; i < INODET_IN_RAM; i++) {
         if(!iNodeList[i].check())
             return i;
     }
@@ -23,8 +20,7 @@ int INodeListInRam::getFreeNode()
 }
 
 // 加载一个i结点
-bool INodeListInRam::loadNode(INode A, int id)
-{
+bool INodeListInRam::loadNode(INode A, int id) {
     int i = getFreeNode();
     if(i == -1)
         return false;
@@ -35,8 +31,7 @@ bool INodeListInRam::loadNode(INode A, int id)
 }
 
 // 释放一个i结点
-INode INodeListInRam::freeNode(int id)
-{
+INode INodeListInRam::freeNode(int id) {
     INode t;
     int i = searchNode(id);
     if(i == -1)
@@ -48,15 +43,14 @@ INode INodeListInRam::freeNode(int id)
     iNodeListSize--;
     return t;
 }
-INode& INodeListInRam::getNode(int id)
-{
+
+INode& INodeListInRam::getNode(int id) {
     int i = searchNode(id);
     return iNodeList[i];
 }
 
 // 寻找id所对应的内存i结点的下标
-int INodeListInRam::searchNode(int id)
-{
+int INodeListInRam::searchNode(int id) {
     for(int i = 0; i < INODET_IN_RAM; i++)
         if(iNodeNum[i] == id)
             return i;
@@ -64,8 +58,7 @@ int INodeListInRam::searchNode(int id)
 }
 
 // 用户username对下标为id的inode对应的文件加锁
-bool INodeListInRam::setLock(string username, int lock, int id)
-{
+bool INodeListInRam::setLock(string username, int lock, int id) {
     if(lock < 0 || lock > 2)
         return false;
     int i = searchNode(id);
@@ -79,7 +72,7 @@ bool INodeListInRam::setLock(string username, int lock, int id)
 
 
 // 空构造函数
-FileOpenItem::FileOpenItem(){}
+FileOpenItem::FileOpenItem() { }
 
 // 复制构造函数
 FileOpenItem::FileOpenItem (FileOpenItem &ano)
@@ -98,27 +91,23 @@ FileOpenItem::FileOpenItem (int offset, int flags, int mode, int id)
         , id(id) { }
 
 // 获取inode的id
-int FileOpenItem::getId()
-{
+int FileOpenItem::getId() {
     return id;
 }
 
 // 获取偏移量
-int FileOpenItem::getOffset()
-{
+int FileOpenItem::getOffset() {
     return offSet;
 }
 
 // 设置偏移量
-bool FileOpenItem::setOffset(int offset)
-{
+bool FileOpenItem::setOffset(int offset) {
     this -> offSet = offset;
     return true;
 }
 
 // 清空文件打开项
-void FileOpenItem::clear()
-{
+void FileOpenItem::clear() {
     offSet = 0;
     flags = 0;
     mode = 0;
@@ -127,47 +116,39 @@ void FileOpenItem::clear()
 }
 
 // 获取链接数
-int FileOpenItem::getLink()
-{
+int FileOpenItem::getLink() {
     return linkN;
 }
 
 // 增加链接
-void FileOpenItem::icrLink()
-{
+void FileOpenItem::icrLink() {
     linkN ++;
 }
 
 // 减少链接
-void FileOpenItem::dcrLink()
-{
+void FileOpenItem::dcrLink() {
     linkN --;
 }
 
 //显示信息
-void FileOpenItem::show()
-{
+void FileOpenItem::show() {
     cout << "offset = " << offSet << ", linkN = " << linkN << ", flag = " << flags << ", mode = " << mode << ", id = " << id;
 }
 
 // 获取模式
-int FileOpenItem::getMode()
-{
+int FileOpenItem::getMode() {
     return mode;
 }
 
 
 
-int FileOpenList::size()
-{
+int FileOpenList::size() {
     return fileOpenSize;
 }
 
 // 清空
-void FileOpenList::clear()
-{
-    for(int i = 0; i < MAX_FDS; i++)
-    {
+void FileOpenList::clear() {
+    for(int i = 0; i < MAX_FDS; i++) {
         if(fileOpenList[i].getLink() > 0)
             fileOpenList[i].clear();
     }
@@ -175,13 +156,11 @@ void FileOpenList::clear()
 }
 
 // 删除引用
-bool FileOpenList::deleteLink(int id)
-{
+bool FileOpenList::deleteLink(int id) {
     if(fileOpenList[id].getLink() <= 0)
         return false;
     fileOpenList[id].dcrLink();
-    if(fileOpenList[id].getLink() == 0)
-    {
+    if(fileOpenList[id].getLink() == 0) {
         deleteItem(id);
         return true;
     }
@@ -189,8 +168,7 @@ bool FileOpenList::deleteLink(int id)
 }
 
 // 增加引用
-bool FileOpenList::addLink(int id)
-{
+bool FileOpenList::addLink(int id) {
     if(fileOpenList[id].getLink() < 0)
         return false;
     fileOpenList[id].icrLink();
@@ -198,8 +176,7 @@ bool FileOpenList::addLink(int id)
 }
 
 // 删除某一项
-bool FileOpenList::deleteItem(int id)
-{
+bool FileOpenList::deleteItem(int id) {
     if(fileOpenList[id].getLink() < 0)
         return false;
     fileOpenList[id].clear();
@@ -208,8 +185,7 @@ bool FileOpenList::deleteItem(int id)
 }
 
 // 添加某一项
-int FileOpenList::addItem(int offset, int flags, int mode, int id)
-{
+int FileOpenList::addItem(int offset, int flags, int mode, int id) {
     int i = getFreeItem();
     if(i == -1)
         return -1;
@@ -220,8 +196,7 @@ int FileOpenList::addItem(int offset, int flags, int mode, int id)
 }
 
 // 获取空闲块
-int FileOpenList::getFreeItem()
-{
+int FileOpenList::getFreeItem() {
     for(int i = 0; i < MAX_FDS; i++)
         if(fileOpenList[i].getLink() == 0)
             return i;
@@ -229,8 +204,7 @@ int FileOpenList::getFreeItem()
 }
 
 // 获取某一项的inode编号
-int FileOpenList::getItemINode(int id)
-{
+int FileOpenList::getItemINode(int id) {
     if(fileOpenList[id].getLink() == 0)
         return -1;
     else
@@ -238,8 +212,7 @@ int FileOpenList::getItemINode(int id)
 }
 
 //显示信息
-void FileOpenList::show()
-{
+void FileOpenList::show() {
     cout << "\n——————————————————————\n";
     for(int i = 0; i < fileOpenCapacity; i ++)
         if(fileOpenList[i].getLink() != 0)
@@ -251,20 +224,17 @@ void FileOpenList::show()
 }
 
 // 获取偏移量
-int FileOpenList::getOffset(int id)
-{
+int FileOpenList::getOffset(int id) {
     return fileOpenList[id].getOffset();
 }
 
 // 设置偏移量
-void FileOpenList::setOffset(int id, int offset)
-{
+void FileOpenList::setOffset(int id, int offset) {
     fileOpenList[id].setOffset(offset);
 }
 
 // 获取模式
-int FileOpenList::getMode(int id)
-{
+int FileOpenList::getMode(int id) {
     return fileOpenList[id].getMode();
 }
 
@@ -274,34 +244,29 @@ UserOpenItem::UserOpenItem() { }
 UserOpenItem::UserOpenItem(int descriptor, int id) : descriptor(descriptor), id(id) { }
 
 // 清空
-void UserOpenItem::clear()
-{
+void UserOpenItem::clear() {
     descriptor = -1;
     id = -1;
 }
 
 // 设置值
-void UserOpenItem::set(int descriptor, int id)
-{
+void UserOpenItem::set(int descriptor, int id) {
     this -> descriptor = descriptor;
     this -> id = id;
 }
 
 // 获取描述符
-int UserOpenItem::getDescriptor()
-{
+int UserOpenItem::getDescriptor() {
     return descriptor;
 }
 
 // 获取id
-int UserOpenItem::getId()
-{
+int UserOpenItem::getId() {
     return id;
 }
 
 // 检查是否可用
-bool UserOpenItem::check()
-{
+bool UserOpenItem::check() {
     if(descriptor < 0)
         return false;
     return true;
@@ -315,16 +280,14 @@ UserOpenList::UserOpenList() { }
 UserOpenList::UserOpenList(string username) : username(username) { }
 
 // 清空
-void UserOpenList::clear()
-{
+void UserOpenList::clear() {
     username = "";
     for(int i = 0; i < MAX_USER_FD; i++)
         iNodeToFile[i].clear();
 }
 
 // 获取系统文件打开表下标
-int UserOpenList::getFileId(int iNodeId, int num)
-{
+int UserOpenList::getFileId(int iNodeId, int num) {
     int id = searchId(iNodeId, num);
     if(id == -1)
         return -1;
@@ -332,11 +295,9 @@ int UserOpenList::getFileId(int iNodeId, int num)
 }
 
 //寻找下标
-int UserOpenList::searchId(int iNodeId, int num)
-{
+int UserOpenList::searchId(int iNodeId, int num) {
     for(int i = 0; i < MAX_USER_FD; i++)
-        if(iNodeToFile[i].getDescriptor() == iNodeId)
-        {
+        if(iNodeToFile[i].getDescriptor() == iNodeId) {
             num--;
             if(num == 0)
                 return i;
@@ -345,8 +306,7 @@ int UserOpenList::searchId(int iNodeId, int num)
 }
 
 // 寻找空闲下标
-int UserOpenList::searchFreeItem()
-{
+int UserOpenList::searchFreeItem() {
     for(int i = 0; i < MAX_USER_FD; i++)
         if(iNodeToFile[i].check() == false)
             return i;
@@ -354,8 +314,7 @@ int UserOpenList::searchFreeItem()
 }
 
 // 添加一个项
-bool UserOpenList::addItem(int iNodeId, int fileId)
-{
+bool UserOpenList::addItem(int iNodeId, int fileId) {
     int id = searchFreeItem();
     if(id == -1)
         return false;
@@ -365,8 +324,7 @@ bool UserOpenList::addItem(int iNodeId, int fileId)
 }
 
 // 删除一个项
-bool UserOpenList::deleteItem(int iNodeId)
-{
+bool UserOpenList::deleteItem(int iNodeId) {
     int id = searchId(iNodeId);
     if(id == -1)
         return false;
@@ -375,14 +333,12 @@ bool UserOpenList::deleteItem(int iNodeId)
 }
 
 // 获取用户名
-string UserOpenList::getUserName()
-{
+string UserOpenList::getUserName() {
     return username;
 }
 
 //计数
-int UserOpenList::count(int iNodeId)
-{
+int UserOpenList::count(int iNodeId) {
     int count = 0;
     for(int i = 0; i < MAX_USER_FD; i++)
         if(iNodeToFile[i].getDescriptor() == iNodeId)
@@ -390,8 +346,7 @@ int UserOpenList::count(int iNodeId)
     return count;
 }
 
-void UserOpenList::show()
-{
+void UserOpenList::show() {
     for(int i = 0; i < MAX_USER_FD; i++)
         if(iNodeToFile[i].getDescriptor() != -1 && iNodeToFile[i].getId() != -1)
             cout << iNodeToFile[i].getDescriptor() << " " << iNodeToFile[i].getId() << endl;

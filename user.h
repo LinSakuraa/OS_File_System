@@ -55,7 +55,7 @@ public:
 extern string currentUser;
 
 //把user的表读到用户数组中去
-class Users{
+class Users {
 private:
     int userListSize = 0;
 

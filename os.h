@@ -19,7 +19,7 @@ using namespace std;
 #ifndef OS_BETA_OS_H
 #define OS_BETA_OS_H
 
-class OS{
+class OS {
 public:
     void printTitle();
     void run();
