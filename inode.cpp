@@ -120,7 +120,7 @@ void INode::clear()
     indexT.clear();
 }
 //更新i结点
-void INodeList::UpdateInode(int id, INode ano)
+void INodeList::updateInode(int id, INode ano)
 {
     inodeList[id] = ano;
 }
@@ -156,7 +156,8 @@ bool INodeList::addNewINode(INode A, int i) {
     return true;
 }
 
-void INodeList::FreeInvalidInode(int pos) {
+
+void INodeList::freeInvalidInode(int pos) {
     iNodeDistributeList[pos] = false;
     inodeList[pos].clear();
     iNodeSize--;
@@ -197,11 +198,20 @@ void INodeList::getSpecificInodeInfo(int pos) {
     cout << endl;
 }
 
-string INode::save_as_string() {
+string INode::saveAsString() {
     string ans = "";
     ans =  username + "\n" + to_string(type) + "\n" +
            to_string(iNlink) + "\n" + to_string(fileLen) + "\n"
            + to_string(diskSize) + "\n" + setTime + updateTime;
+    //ans +=  "aaa:" + (to_string(dir.size()) + '\n');
+//    vector<int> tmp = indexT.getIndexes();
+//    ans += tmp.size() + "\n";
+//    ans += "\n---------------------\n";
+//    for(int i : tmp){
+//        ans += to_string(i);
+//        ans += '\n';
+//    }
+//    ans += "\n---------------------\n";
     return ans;
 }
 
