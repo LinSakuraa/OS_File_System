@@ -1,5 +1,5 @@
 //
-// Created by 旧城筱雨 on 2021/5/28.
+// Created by 19150 on 2022/5/30.
 //
 
 #include <bits/stdc++.h>
@@ -7,10 +7,11 @@
 #include "directory.h"
 #include "memory.h"
 
-#ifndef OS_INODE_H
-#define OS_INODE_H
 
-//这是位示图！！！！！！！
+#ifndef OS_FILE_SYSTEM_INCODE_H
+#define OS_FILE_SYSTEM_INCODE_H
+
+//位示图
 extern bool iNodeDistributeList[INODE_NUM];
 
 class INode{
@@ -20,7 +21,7 @@ private:
     //表示i结点存储的类型，是文件还是目录，文件是0，目录是1
     int type = -1;
     // 硬连接数
-    int i_Nlink = 0;
+    int iNlink = 0;
     //存储i结点对应的文件的文件长度(返回是一个字节数)
     int fileLen = 0;
     //存储i结点对应文件所占用的磁盘块数
@@ -107,4 +108,4 @@ public:
 extern INode cache;
 extern string cacheFilename;
 
-#endif //OS_INODE_H
+#endif //OS_FILE_SYSTEM_INCODE_H
