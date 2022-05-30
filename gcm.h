@@ -44,7 +44,7 @@ public:
 };
 
 //超级块
-class SuperGroup{
+class superGroup{
 private:
     // 超级栈中当前的组长块
     GroupLeader* curGroup;

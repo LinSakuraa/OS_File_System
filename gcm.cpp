@@ -65,7 +65,7 @@ bool GroupLeader::setNextLeader(GroupLeader* ano)
 }
 
 // 获得一个空闲块
-int SuperGroup::getFreeBlock()
+int superGroup::getFreeBlock()
 {
     if(groupTotalSize <= 0)
         return -1;
@@ -77,7 +77,7 @@ int SuperGroup::getFreeBlock()
 }
 
 // 返回一个被释放的块
-bool SuperGroup::addNewBlock(int id)
+bool superGroup::addNewBlock(int id)
 {
     if(curGroup->size() >= 50)
     {
@@ -90,13 +90,13 @@ bool SuperGroup::addNewBlock(int id)
 }
 
 // 获取总空闲块数
-int SuperGroup::size() const
+int superGroup::size() const
 {
     return groupTotalSize;
 }
 
 // 初始化超级栈
-void SuperGroup::init()
+void superGroup::init()
 {
     for(int i = 0; i < TOTAL_GROUP_SIZE / GROUP_SIZE; i++)
     {
@@ -120,7 +120,7 @@ void SuperGroup::init()
 }
 
 // 显示信息
-void SuperGroup::show()
+void superGroup::show()
 {
     int i;
     cout << "当前超级栈容量为" << curGroup->size() << endl;
