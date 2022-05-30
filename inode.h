@@ -77,7 +77,7 @@ public:
     //判断当前用户是否有打开i结点的权限
     bool inodeIsAuthor(string username);
     //为了存储i结点声明的转换成字符串的方法
-    string save_as_string();
+    string saveAsString();
     //获得i结点的type类型
     int getType();
     //为i结点的所占的磁盘块区的编号进行索引存储
@@ -96,11 +96,11 @@ public:
     //添加新节点
     bool addNewINode(INode A, int i);
     //释放一个不用的i结点
-    void FreeInvalidInode(int pos);
+    void freeInvalidInode(int pos);
     //获取某个i结点的信息
     void getSpecificInodeInfo(int pos);
     //更新i结点
-    void UpdateInode(int id, INode ano);
+    void updateInode(int id, INode ano);
     // 获取某个i结点
     INode& getInode(int id);
 };
