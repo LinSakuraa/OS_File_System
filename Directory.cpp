@@ -19,7 +19,7 @@ void Directory::show()
         cout << it.first << " " << it.second << endl;
     }
 }
-bool Directory::addItem(int fileName, int id)
+bool Directory::addItem(string fileName, int id)
 {
     if(directory.find(fileName) != directory.end())
         return false;
@@ -27,7 +27,7 @@ bool Directory::addItem(int fileName, int id)
         directory[fileName] = id;
     return true;
 }
-bool Directory::deleteItem(int fileName)
+bool Directory::deleteItem(string fileName)
 {
     if(directory.find(fileName) == directory.end())
         return false;
@@ -35,18 +35,18 @@ bool Directory::deleteItem(int fileName)
         directory.erase(fileName);
     return true;
 }
-bool Directory::checkItem(int fileName)
+bool Directory::checkItem(string fileName)
 {
     return directory.find(fileName) != directory.end();
 }
-int Directory::getItem(int fileName)
+int Directory::getItem(string fileName)
 {
     if(directory.find(fileName) == directory.end())
         return -1;
     else
         return directory[fileName];
 }
-bool Directory::renameItem(int fileName, int newName)
+bool Directory::renameItem(string fileName, string newName)
 {
     if(directory.find(fileName) == directory.end() || directory.find(newName) != directory.end())
         return false;
