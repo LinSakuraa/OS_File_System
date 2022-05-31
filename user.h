@@ -16,15 +16,13 @@ using namespace std;
 
 class User {
 private:
-    User();
-
     Directory* curDir = nullptr;
     string username;
     string password;
     bool state = false;
 
 public:
-    User(string basicString, string string1);
+    User();
 
     User(string un, string pw, Directory* dir = nullptr);
 

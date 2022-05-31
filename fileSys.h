@@ -25,7 +25,7 @@ public:
     //functions
     superBlock();
     bool createFile(const string& fileName,Directory* curDir);                                      //create file in superBlock
-    void deleteFile(const string& fileName,Directory* directory);                                   //delete file in superBlock
+    void deleteFile(const string& fileName,Directory& directory);                                   //delete file in superBlock
     void createDirectory(const string &directoryName, INode &dir, Directory* directory, int pos);   //create directory in superBlock
     void deleteDirectory(const string& directoryName, INode& dir, Directory& directory, int pos);   //delete directory in superBlock
     void createFileAndDirectory();                                                                  //create i node for files & directories

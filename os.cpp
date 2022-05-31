@@ -105,7 +105,7 @@ void OS::run()
             cin >> filename;
             fileSys.fileDelete(filename);
         } else if(cmd == "logout") { // 登出
-            fileSys.users.loginOut();
+            fileSys.users.logout();
         } else if(cmd == "rmdir") { // 删除目录
             string filename;
             cin >> filename;

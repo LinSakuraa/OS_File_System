@@ -9,7 +9,7 @@ superBlock::superBlock()
 {
     superGroup.init();
 }
-bool superBlock::createFile(const int &fileName, Directory *curDir)
+bool superBlock::createFile(const string& fileName, Directory *curDir)
 {
     int i = iNodeList.getFreeInodeNum();
     if(i == -1)
@@ -18,7 +18,7 @@ bool superBlock::createFile(const int &fileName, Directory *curDir)
         return false;
     }
     int idd = curDir->getItem(".");
-    if(!iNodeList.getInode(idd).inodeIsAuthor(current_user))
+    if(!iNodeList.getInode(idd).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!\n";
         return false;
@@ -45,16 +45,16 @@ bool superBlock::createFile(const int &fileName, Directory *curDir)
         superGroup.addNewBlock(bid);
         n++;
     }
-    INode newInode(0, getcurrentTime(), getcurrentTime(), current_user);
+    INode newInode(0, getCurrentTime(), getCurrentTime(), currentUser);
     if(iNodeList.addNewINode(newInode, i))
     {
-        free_inode--;
+        freeNode--;
     }
     else
         return false;
     return true;
 }
-void superBlock::deleteFile(const int &fileName, Directory *directory)
+void superBlock::deleteFile(const string& fileName, Directory &directory)
 {
     int pos = -1;
     pos = directory.getItem(fileName);
@@ -65,22 +65,22 @@ void superBlock::deleteFile(const int &fileName, Directory *directory)
     }
     directory.deleteItem(fileName);
     iNodeDistributeList[pos] = false;
-    iNodeList.FreeInvalidInode(pos);
-    free_inode++;
+    iNodeList.freeInvalidInode(pos);
+    freeNode++;
 }
-void superBlock::createDirectory(const int &directoryName, INode &dir, Directory *directory, int pos)
+void superBlock::createDirectory(const string &directoryName, INode &dir, Directory *directory, int pos)
 {
     iNodeList.iNodeSize++;
     iNodeDistributeList[pos] = true;
     iNodeList.inodeList[pos] = dir;
     directory->addItem(directoryName, pos);
 }
-void superBlock::deleteDirectory(const int &directoryName, INode &dir, Directory &directory, int pos)
+void superBlock::deleteDirectory(const string &directoryName, INode &dir, Directory &directory, int pos)
 {
     iNodeList.iNodeSize--;
     iNodeDistributeList[pos] = false;
     directory.deleteItem(directoryName);
-    iNodeList.FreeInvalidInode(pos);
+    iNodeList.freeInvalidInode(pos);
 }
 void superBlock::createFileAndDirectory()
 {
@@ -91,7 +91,7 @@ void superBlock::deleteFileAndDirectory()
 
 }
 //file system functions
-void fileSystem::fileCreate(const int &fileName)
+void fileSystem::fileCreate(const string &fileName)
 {
     Directory* cur_dir = users.getCurDir();
     if(cur_dir != nullptr)
@@ -127,11 +127,11 @@ void fileSystem::saveInodeInfo()
     {
         if(iNodeDistributeList[i])
         {
-            file << superBlock.iNodeList.inodeList[i].save_as_string();
+            file << superBlock.iNodeList.inodeList[i].saveAsString();
             if(superBlock.iNodeList.inodeList[i].getType() == 1)
             {
-                file<<to_string(superBlock.iNodeList.inodeList[i].dir.getFileNumFromDir())<<endl;
-                file<<superBlock.iNodeList.inodeList[i].dir.save_as_string_dir();
+                file<<to_string(superBlock.iNodeList.inodeList[i].dir.getNumFileDir())<<endl;
+                file<<superBlock.iNodeList.inodeList[i].dir.saveStringDir();
             }
             else if(superBlock.iNodeList.inodeList[i].getType() == 0)
             {
@@ -169,7 +169,7 @@ void fileSystem::readInodeInfo()
             {
                 file >> userName;
             }
-            cout << username << " is user name" << endl;
+            cout << userName << " is user name" << endl;
             file >> line;
             type = atoi(line.c_str());
             cout << type << " is type" << endl;
@@ -187,7 +187,7 @@ void fileSystem::readInodeInfo()
             getline(file, updateTime);
             cout << setTime <<" is set time " << endl;
             cout << updateTime << " is update time" << endl;
-            INode A(type, setTime, updateTime, username, fileLen, diskSize, i_Nlink);
+            INode A(type, setTime, updateTime, userName, fileLen, diskSize, i_Nlink);
             superBlock.iNodeList.inodeList[i] = A;
             superBlock.iNodeList.iNodeSize++;
             int dirSize;
@@ -221,7 +221,7 @@ void fileSystem::readInodeInfo()
 
     }
 }
-bool fileSystem::openFile(int fileName, int sign, int mode)
+bool fileSystem::openFile(string fileName, int sign, int mode)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -235,7 +235,7 @@ bool fileSystem::openFile(int fileName, int sign, int mode)
         cout << "the file does not exists!"<<endl;
         return false;
     }
-    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return false;
@@ -251,15 +251,15 @@ bool fileSystem::openFile(int fileName, int sign, int mode)
         if(!iNodeListInRam.loadNode(superBlock.iNodeList.getInode(id), id))
             return false;
     }
-    if(userOpenList[current_user].getFileId(id) != -1)
+    if(userOpenList[currentUser].getFileId(id) != -1)
     {
         cout << "do you want to open it separately? [Y/N]:"<<endl;
         char c;
         cin >> c;
         if(!(c == 'Y' || c == 'y')) // N0
         {
-            int id_sys_list = userOpenList[current_user].getFileId(id);
-            if(!userOpenList[current_user].addItem(id, id_sys_list))
+            int id_sys_list = userOpenList[currentUser].getFileId(id);
+            if(!userOpenList[currentUser].addItem(id, id_sys_list))
             {
                 return false;
             }
@@ -272,19 +272,19 @@ bool fileSystem::openFile(int fileName, int sign, int mode)
         id_sys_list = fileOpenList.addItem(iNodeListInRam.getNode(id).content.size(), 0, mode, id);
     else
         id_sys_list = fileOpenList.addItem(0, 0, mode, id);
-    if(userOpenList.find(current_user) == userOpenList.end())
+    if(userOpenList.find(currentUser) == userOpenList.end())
     {
-        UserOpenList t1(current_user);
-        userOpenList[current_user] = t1;
+        UserOpenList t1(currentUser);
+        userOpenList[currentUser] = t1;
     }
-    if(!userOpenList[current_user].addItem(id, id_sys_list))
+    if(!userOpenList[currentUser].addItem(id, id_sys_list))
     {
         return false;
     }
     cout << "open successfully"<<endl;
     return true;
 }
-bool fileSystem::closeFile(int fileName)
+bool fileSystem::closeFile(string fileName)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -298,12 +298,12 @@ bool fileSystem::closeFile(int fileName)
         cout << "the file does not exists!"<<endl;
         return false;
     }
-    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return false;
     }
-    int num = userOpenList[current_user].count(id);
+    int num = userOpenList[currentUser].count(id);
     if(num > 1)
     {
         cout << "choose a process to continue[1-" << num <<"]:"<<endl;
@@ -313,8 +313,8 @@ bool fileSystem::closeFile(int fileName)
             num = 1;
         num = n ;
     }
-    int id_sys_list = userOpenList[current_user].getFileId(id, num);
-    userOpenList[current_user].deleteItem(id);
+    int id_sys_list = userOpenList[currentUser].getFileId(id, num);
+    userOpenList[currentUser].deleteItem(id);
     bool sign1 = fileOpenList.deleteLink(id_sys_list);
     bool sign;
     if(sign1)
@@ -323,13 +323,13 @@ bool fileSystem::closeFile(int fileName)
         if (sign)
         {
             INode t = iNodeListInRam.freeNode(id);
-            superBlock.iNodeList.UpdateInode(id, t);
+            superBlock.iNodeList.updateInode(id, t);
         }
     }
     cout << "close successfully"<<endl;
     return true;
 }
-string fileSystem::readFile(int fileName, int len)
+string fileSystem::readFile(string fileName, int len)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -343,12 +343,12 @@ string fileSystem::readFile(int fileName, int len)
         cout << "the file does not exists!"<<endl;
         return "";
     }
-    if(superBlock.iNodeList.getInode(id).getUser() != current_user)
+    if(superBlock.iNodeList.getInode(id).getUser() != currentUser)
     {
         cout << "you are not authenticated!"<<endl;
         return "";
     }
-    int num = userOpenList[current_user].count(id);
+    int num = userOpenList[currentUser].count(id);
     if(num > 1)
     {
         cout << "choose a process to continue[1-" << num <<"]:"<<endl;
@@ -358,7 +358,7 @@ string fileSystem::readFile(int fileName, int len)
             num = 1;
         num = n ;
     }
-    int id_sys_list = userOpenList[current_user].getFileId(id, num);
+    int id_sys_list = userOpenList[currentUser].getFileId(id, num);
     if(id_sys_list == -1)
         return "";
     int offset = fileOpenList.getOffset(id_sys_list);
@@ -369,7 +369,7 @@ string fileSystem::readFile(int fileName, int len)
     out += "\n";
     return out;
 }
-bool fileSystem::writeFile(int fileName, int content)
+bool fileSystem::writeFile(string fileName, string content)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -383,12 +383,12 @@ bool fileSystem::writeFile(int fileName, int content)
         cout << "the file does not exists!"<<endl;
         return false;
     }
-    if(superBlock.iNodeList.getInode(id).getUser() != current_user)
+    if(superBlock.iNodeList.getInode(id).getUser() != currentUser)
     {
         cout << "you are not authenticated!"<<endl;
         return false;
     }
-    int num = userOpenList[current_user].count(id);
+    int num = userOpenList[currentUser].count(id);
     if(num > 1)
     {
         cout << "choose a process to continue[1-" << num <<"]:"<<endl;
@@ -398,7 +398,7 @@ bool fileSystem::writeFile(int fileName, int content)
             num = 1;
         num = n;
     }
-    int id_sys_list = userOpenList[current_user].getFileId(id, num);
+    int id_sys_list = userOpenList[currentUser].getFileId(id, num);
     if(id_sys_list == -1)
     {
         cout << "the file have not been opened!"<<endl;
@@ -436,7 +436,7 @@ bool fileSystem::writeFile(int fileName, int content)
     iNodeListInRam.getNode(id).updateFileSize();
     return true;
 }
-void fileSystem::showFileInfo(int fileName)
+void fileSystem::showFileInfo(string fileName)
 {
 
 }
@@ -448,7 +448,7 @@ Directory* fileSystem::returnToParent()
     users.setCurDir(t);
     return t;
 }
-void fileSystem::directoryCreate(const int &directoryName)
+void fileSystem::directoryCreate(const string &directoryName)
 {
     int parent_id;
     Directory* t = users.getCurDir();
@@ -465,9 +465,9 @@ void fileSystem::directoryCreate(const int &directoryName)
         return ;
     }
     int cur_id = pos;
-    INode newInode(1, getcurrentTime(), getcurrentTime(), current_user);
+    INode newInode(1, getCurrentTime(), getCurrentTime(), currentUser);
     newInode.dir.init(cur_id, parent_id);
-    if(superBlock.iNodeList.getInode(parent_id).inodeIsAuthor(current_user))
+    if(superBlock.iNodeList.getInode(parent_id).inodeIsAuthor(currentUser))
     {
         superBlock.createDirectory(directoryName, newInode, users.getCurDir(), pos);
     }
@@ -478,7 +478,7 @@ void fileSystem::directoryCreate(const int &directoryName)
     }
     users.setCurDir(&(superBlock.iNodeList.getInode(cur_id).dir));
 }
-void fileSystem::directoryDelete(const int &directoryName)
+void fileSystem::directoryDelete(const string &directoryName)
 {
     Directory* t = users.getCurDir();
     if(t == nullptr)
@@ -493,13 +493,13 @@ void fileSystem::directoryDelete(const int &directoryName)
         cout << "the directory does not exist!" << endl;
         return ;
     }
-    if(superBlock.iNodeList.getInode(pos).inodeIsAuthor(current_user))
+    if(superBlock.iNodeList.getInode(pos).inodeIsAuthor(currentUser))
     {
         INode tmp = superBlock.iNodeList.getInode(pos);
         superBlock.deleteDirectory(directoryName, tmp, *users.getCurDir(), pos);
     }
 }
-void fileSystem::fileDelete(const int &fileName)
+void fileSystem::fileDelete(const string &fileName)
 {
     Directory* t = users.getCurDir();
     if(t == nullptr)
@@ -514,7 +514,7 @@ void fileSystem::fileDelete(const int &fileName)
         cout << "file does not exist!"<<endl;
         return;
     }
-    int num = userOpenList[current_user].count(pos);
+    int num = userOpenList[currentUser].count(pos);
     while(num > 0)
     {
         closeFileForDelete(fileName);
@@ -525,11 +525,11 @@ void fileSystem::createRootDirectory()
 {
     superBlock.iNodeList.iNodeSize++;
     iNodeDistributeList[0] = true;
-    INode RootInode(1, getcurrentTime(), getcurrentTime(), current_user);
+    INode RootInode(1, getCurrentTime(), getCurrentTime(), currentUser);
     RootInode.dir.init(0, 0);
     superBlock.iNodeList.inodeList[0] = RootInode;
 }
-int fileSystem::createUserDirectory(int userName)
+int fileSystem::createUserDirectory(string userName)
 {
     int parent_id = 0;
     int pos = superBlock.iNodeList.getFreeInodeNum();
@@ -538,7 +538,7 @@ int fileSystem::createUserDirectory(int userName)
         return -1;
     }
     int cur_id = pos;
-    INode newInode(1, getcurrentTime(), getcurrentTime(), userName);
+    INode newInode(1, getCurrentTime(), getCurrentTime(), userName);
     newInode.dir.init(cur_id, parent_id);
     superBlock.iNodeList.iNodeSize++;
     iNodeDistributeList[pos] = true;
@@ -556,7 +556,7 @@ void fileSystem::init()
     users.userList[0].setCurDir(&(superBlock.iNodeList.getInode(i).dir));
     users.userList[1].setCurDir(&(superBlock.iNodeList.getInode(j).dir));
 }
-void fileSystem::cd(int directoryName)
+void fileSystem::cd(string directoryName)
 {
     Directory* t = users.getCurDir();
     if(t == nullptr)
@@ -580,7 +580,7 @@ void fileSystem::cd(int directoryName)
 void fileSystem::formatFileSystem()
 {
     superBlock.iNodeList.iNodeSize = 0;
-    current_user = "";
+    currentUser = "";
     for(bool & i : iNodeDistributeList)
     {
         i = false;
@@ -608,7 +608,7 @@ void fileSystem::showDir()
         return;
     }
     for(int i=2; i<curDir->size(); i++){
-        string fileName = curDir->getFileNameFromMap(i);
+        string fileName = curDir->getFileNameMap(i);
         if(fileName == "")
             return;
         int inodeId = curDir->getItem(fileName);
@@ -622,7 +622,7 @@ void fileSystem::showDir()
         }
     }
 }
-bool fileSystem::closeFileForDelete(int fileName)
+bool fileSystem::closeFileForDelete(string fileName)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -636,8 +636,8 @@ bool fileSystem::closeFileForDelete(int fileName)
         cout << "the file does not exists!"<<endl;
         return false;
     }
-    int id_sys_list = userOpenList[current_user].getFileId(id);
-    userOpenList[current_user].deleteItem(id);
+    int id_sys_list = userOpenList[currentUser].getFileId(id);
+    userOpenList[currentUser].deleteItem(id);
     bool sign1 = fileOpenList.deleteLink(id_sys_list);
     bool sign;
     if(sign1)
@@ -646,12 +646,12 @@ bool fileSystem::closeFileForDelete(int fileName)
         if (sign)
         {
             INode t = iNodeListInRam.freeNode(id);
-            superBlock.iNodeList.UpdateInode(id,t);
+            superBlock.iNodeList.updateInode(id,t);
         }
     }
     return true;
 }
-void fileSystem::copy(int fileName)
+void fileSystem::copy(string fileName)
 {
     if(cacheFilename != "" || cache.getType() != -1)
     {
@@ -675,12 +675,12 @@ void fileSystem::copy(int fileName)
         cout << "you can not copy a directory!"<<endl;
         return;
     }
-    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return;
     }
-    int num = userOpenList[current_user].count(id);
+    int num = userOpenList[currentUser].count(id);
     while(num > 0)
     {
         closeFileForDelete(fileName);
@@ -737,14 +737,14 @@ void fileSystem::paste()
     }
     if(superBlock.iNodeList.addNewINode(cache, i))
     {
-        superBlock.free_inode--;
+        superBlock.freeNode--;
     }
     openFile(cacheFilename, 0, 1);
     cout << "paste successfully"<<endl;
     cache.clear();
     cacheFilename = "";
 }
-void fileSystem::fileRename(int &fileName, int &newName)
+void fileSystem::fileRename(string &fileName, string &newName)
 {
     Directory* curDir = users.getCurDir();
     if(curDir == nullptr)
@@ -758,14 +758,14 @@ void fileSystem::fileRename(int &fileName, int &newName)
         cout << "the file does not exists!"<<endl;
         return;
     }
-    if(!superBlock.iNodeList.getInode(pos).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(pos).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return;
     }
     curDir->renameItem(fileName,newName);
 }
-void fileSystem::cut(int fileName)
+void fileSystem::cut(string fileName)
 {
     if(cacheFilename != "" || cache.getType() != -1)
     {
@@ -789,12 +789,12 @@ void fileSystem::cut(int fileName)
         cout << "you can not cut a directory!"<<endl;
         return;
     }
-    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return;
     }
-    int num = userOpenList[current_user].count(id);
+    int num = userOpenList[currentUser].count(id);
     while(num > 0)
     {
         closeFileForDelete(fileName);
@@ -805,7 +805,7 @@ void fileSystem::cut(int fileName)
     cache = t;
     fileDelete(fileName);
 }
-void fileSystem::fSeek(int fileName, int offset)
+void fileSystem::fSeek(string fileName, int offset)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -819,7 +819,7 @@ void fileSystem::fSeek(int fileName, int offset)
         cout << "the file does not exists!"<<endl;
         return;
     }
-    if(superBlock.iNodeList.getInode(id).getUser() != current_user)
+    if(superBlock.iNodeList.getInode(id).getUser() != currentUser)
     {
         cout << "you are not authenticated!"<<endl;
         return;
@@ -829,7 +829,7 @@ void fileSystem::fSeek(int fileName, int offset)
         cout << "you can not change the pointer of a directory"<<endl;
         return;
     }
-    int num = userOpenList[current_user].count(id);
+    int num = userOpenList[currentUser].count(id);
     if(num > 1)
     {
         cout << "choose a process to continue[1-" << num <<"]:"<<endl;
@@ -839,7 +839,7 @@ void fileSystem::fSeek(int fileName, int offset)
             num = 1;
         num = n;
     }
-    int id_sys_list = userOpenList[current_user].getFileId(id, num);
+    int id_sys_list = userOpenList[currentUser].getFileId(id, num);
     if(id_sys_list == -1)
     {
         cout << "the file has not been opened!"<<endl;
@@ -851,7 +851,7 @@ void fileSystem::fSeek(int fileName, int offset)
         offset = 0;
     fileOpenList.setOffset(id_sys_list, offset);
 }
-void fileSystem::showFile(int fileName)
+void fileSystem::showFile(string fileName)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -865,7 +865,7 @@ void fileSystem::showFile(int fileName)
         cout << "the file does not exists!"<<endl;
         return;
     }
-    if(superBlock.iNodeList.getInode(id).getUser() != current_user)
+    if(superBlock.iNodeList.getInode(id).getUser() != currentUser)
     {
         cout << "you are not authenticated!"<<endl;
         return;
@@ -879,7 +879,7 @@ void fileSystem::showFile(int fileName)
     cout << "the file " << fileName << " has use " << size << " blocks"<<endl;
     t.show();
 }
-void fileSystem::copy2(int fileName, int newName)
+void fileSystem::copy2(string fileName, string newName)
 {
     if(cacheFilename != "" || cache.getType() != -1)
     {
@@ -903,12 +903,12 @@ void fileSystem::copy2(int fileName, int newName)
         cout << "you can not copy a directory!"<<endl;
         return;
     }
-    if(!superBlock.iNodeList.getInode(id_a).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(id_a).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return;
     }
-    int num = userOpenList[current_user].count(id_a);
+    int num = userOpenList[currentUser].count(id_a);
     while(num > 0)
     {
         closeFileForDelete(fileName);
@@ -918,7 +918,7 @@ void fileSystem::copy2(int fileName, int newName)
     if(dir->checkItem(newName))
     {
         int id_b = dir->getItem(newName);
-        int num1 = userOpenList[current_user].count(id_b);
+        int num1 = userOpenList[currentUser].count(id_b);
         while(num1 > 0)
         {
             closeFileForDelete(newName);
@@ -938,12 +938,12 @@ void fileSystem::copy2(int fileName, int newName)
         dir->addItem(newName, i);
         iNodeDistributeList[i] = true;
         superBlock.iNodeList.addNewINode(superBlock.iNodeList.getInode(id_a), i);
-        superBlock.free_inode--;
+        superBlock.freeNode--;
         openFile(newName, 0, 1);
     }
     cout << "copy successfully!"<<endl;
 }
-void fileSystem::show(int fileName)
+void fileSystem::show(string fileName)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -957,7 +957,7 @@ void fileSystem::show(int fileName)
         cout << "the file does not exists!"<<endl;
         return;
     }
-    if(superBlock.iNodeList.getInode(id).getUser() != current_user)
+    if(superBlock.iNodeList.getInode(id).getUser() != currentUser)
     {
         cout << "you are not authenticated!"<<endl;
         return;
@@ -971,7 +971,7 @@ void fileSystem::show(int fileName)
     else
         cout << superBlock.iNodeList.getInode(id).content << endl;
 }
-void fileSystem::add(int fileName, int newName)
+void fileSystem::add(string fileName, string newName)
 {
     Directory* dir = users.getCurDir();
     if(dir == nullptr)
@@ -990,12 +990,12 @@ void fileSystem::add(int fileName, int newName)
         cout << "you can not copy a directory!"<<endl;
         return;
     }
-    if(!superBlock.iNodeList.getInode(id_a).inodeIsAuthor(current_user))
+    if(!superBlock.iNodeList.getInode(id_a).inodeIsAuthor(currentUser))
     {
         cout << "you are not authenticated!"<<endl;
         return;
     }
-    int num = userOpenList[current_user].count(id_a);
+    int num = userOpenList[currentUser].count(id_a);
     while(num > 0)
     {
         closeFileForDelete(fileName);
@@ -1005,7 +1005,7 @@ void fileSystem::add(int fileName, int newName)
     if(dir->checkItem(newName))
     {
         int id_b = dir->getItem(newName);
-        int num1 = userOpenList[current_user].count(id_b);
+        int num1 = userOpenList[currentUser].count(id_b);
         while(num1 > 0)
         {
             closeFileForDelete(newName);
@@ -1025,7 +1025,7 @@ void fileSystem::add(int fileName, int newName)
         dir->addItem(newName, i);
         iNodeDistributeList[i] = true;
         superBlock.iNodeList.addNewINode(superBlock.iNodeList.getInode(id_a), i);
-        superBlock.free_inode--;
+        superBlock.freeNode--;
         openFile(newName, 0, 1);
     }
 }
