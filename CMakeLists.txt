@@ -7,5 +7,6 @@ include_directories(.)
 
 add_executable(OS_Beta
         GlobalVariable.h
+        errorNotify.cpp errorNotify.h
         index.h index.cpp blocksControl.h blocksControl.cpp fileDirectory.h fileDirectory.cpp ayxiliaryMod.cpp ayxiliaryMod.h list.cpp list.h nodeList.cpp nodeList.h fileSystem.cpp fileSystem.h userControl.cpp userControl.h interface.cpp interface.h
         main.cpp)

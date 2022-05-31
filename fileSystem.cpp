@@ -123,7 +123,7 @@ void fileSystem::saveInodeInfo()
     {
         file<<i<<endl;
     }
-    for(int i=0; i<INODE_NUM; i++)
+    for(int i=0; i<nodeNum; i++)
     {
         if(iNodeDistributeList[i])
         {
@@ -159,7 +159,7 @@ void fileSystem::readInodeInfo()
         else
             i = false;
     }
-    for(int i=0; i<INODE_NUM; i++)
+    for(int i=0; i<nodeNum; i++)
     {
         if(iNodeDistributeList[i])
         {
@@ -415,7 +415,7 @@ bool fileSystem::writeFile(string fileName, string content)
     string in2 = iNodeListInRam.getNode(id).content.substr(offset, iNodeListInRam.getNode(id).content.size() - offset);
     string out = in1 + content + in2;
     iNodeListInRam.getNode(id).content = out;
-    int n = (int)ceil((double)(sizeof(out) - iNodeListInRam.getNode(id).size()) / (double) BLOCK_SIZE);
+    int n = (int)ceil((double)(sizeof(out) - iNodeListInRam.getNode(id).size()) / (double) blockSize);
     while(n > 0)
     {
         int bid = superBlock.superGroup.getFreeBlock();
