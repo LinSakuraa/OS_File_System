@@ -9,12 +9,10 @@ OS os;
 void OS::printTitle()
 {
     string path = "";
-    if(currentUser == "")
-    {
+    if(currentUser == "") {
         cout << "$/>";
         return;
-    } else
-    {
+    } else {
         Directory* curDir;
         int id;
         string name;
@@ -170,16 +168,27 @@ void OS::run()
 
 void OS::help()
 {
-    cout << "login\t\t\t\t   登录\n";                     cout << "logout\t\t\t\t\t登出\n";
-    cout << "cd\tdirname\t\t\t\t进入目录\n";              cout << "mkdir\tdirname\t\t\t\t创建目录\n";
-    cout << "rmdir\tdirname\t\t\t\t删除目录\n";           cout << "create\tfilename\t\t\t创建文件\n";
-    cout << "open\tfilename\t\t\t打开文件\n";           cout << "close\tfilename\t\t\t关闭文件\n";
-    cout << "read\tfilename\tlength\t\t读取文件\n";   cout << "write\tfilename\tcontent\t\t写入文件\n";
-    cout << "delete\tfilename\t\t\t删除文件\n";         cout << "format\t\t\t\t\t格式化\n";
-    cout << "cl\tusername\t\t\t切换用户\n";             cout << "justCopy\tfilename\t\t\t复制\n";
-    cout << "paste\t\t\t\t\t粘贴\n";                     cout << "cut\tfilename\t\t\t剪切\n";
-    cout << "rename\tfilename\tnewName\t\t重命名\n";  cout << "fileSeek\toffset\t\t\t\t重定位\n";
-    cout << "show\tfilename\t\t\t显示文件内容\n";        cout << "showIndex\tfilename\t\t\t显示文件使用块信息\n";
-    cout << "exit\t\t\t\t\t退出\n";
-    cout << "add\tfilename\tnewName\t\t追加文件内容\n";  cout << "copy\tfilename\tnewName\t\t复制文件内容\n";
+    cout << "login\t\t\t\t   " << "user login" << endl;
+    cout << "logout\t\t\t\t\t" << "user logout" << endl;
+    cout << "mkdir\t   dirname\t\t\t" << "create directory" << endl;
+    cout << "rmdir\t   dirname\t\t\t" << "delete directory" << endl;
+    cout << "cd\t   dirname\t\t\t" << "enter directory" << endl;
+    cout << "create\t   filename\t\t\t" << "create file" << endl;
+    cout << "open\t   filename\t\t\t" << "open file" << endl;
+    cout << "close\t   filename\t\t\t" << "close file" << endl;
+    cout << "read\t   filename\tlength\t\t" << "read file content" << endl;
+    cout << "write\t   filename\tcontent\t\t" << "write to file" << endl;
+    cout << "delete\t   filename\t\t\t" << "delete file" << endl;
+    cout << "format\t\t\t\t\t" << "format file" << endl;
+    cout << "cl\t   username\t\t\t" << "change user" << endl;
+    cout << "justCopy   filename\t\t\t" << "copy file" << endl;
+    cout << "paste\t\t\t\t\t" << "paste file" << endl;
+    cout << "cut\t   filename\t\t\t" << "cut file" << endl;
+    cout << "rename\t   filename\tnewName\t\t" << "rename filename" << endl;
+    cout << "fileSeek   offset\t\t\t" << "reposition" << endl;
+    cout << "show\t   filename\t\t\t" << "show file content" << endl;
+    cout << "showIndex  filename\t\t\t" << "show message of file block using" << endl;
+    cout << "exit\t\t\t\t\t" << "exit exe" << endl;
+    cout << "add\t   filename\tnewName\t\t" << "add content for file" << endl;
+    cout << "copy\t   filename\tnewName\t\t" << "copy content for file" << endl;
 }
