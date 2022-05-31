@@ -5,14 +5,14 @@
 #include <iostream>
 #include <conio.h>
 #include <bits/stdc++.h>
-#include "memory.h"
-#include "gcm.h"
-#include "directory.h"
-#include "help.h"
-#include "ram.h"
-#include "fileSys.h"
-#include "user.h"
-#include "inode.h"
+#include "index.h"
+#include "blocksControl.h"
+#include "fileDirectory.h"
+#include "ayxiliaryMod.h"
+#include "list.h"
+#include "fileSystem.h"
+#include "userControl.h"
+#include "nodeList.h"
 
 using namespace std;
 

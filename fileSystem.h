@@ -2,14 +2,14 @@
 // Created by LinSakura on 2022/5/30.
 //
 //main module of the project
-#include "directory.h"
-#include "inode.h"
+#include "fileDirectory.h"
+#include "nodeList.h"
 #include "GlobalVariable.h"
-#include "memory.h"
-#include "user.h"
-#include "help.h"
-#include "ram.h"
-#include "gcm.h"
+#include "index.h"
+#include "userControl.h"
+#include "ayxiliaryMod.h"
+#include "list.h"
+#include "blocksControl.h"
 #ifndef OS_BETA_FILESYS_H
 #define OS_BETA_FILESYS_H
 class superBlock{
