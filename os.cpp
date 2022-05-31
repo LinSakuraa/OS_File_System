@@ -4,12 +4,17 @@
 
 #include "os.h"
 
-void OS::printTitle() {
+OS os;
+
+void OS::printTitle()
+{
     string path = "";
-    if(currentUser == "") {
+    if(currentUser == "")
+    {
         cout << "$/>";
         return;
-    } else {
+    } else
+    {
         Directory* curDir;
         int id;
         string name;

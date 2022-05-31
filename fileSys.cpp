@@ -14,13 +14,13 @@ bool superBlock::createFile(const string& fileName, Directory *curDir)
     int i = iNodeList.getFreeInodeNum();
     if(i == -1)
     {
-        cout << "I-nodes have been run out\n";
+        cout << "I-nodes have been run out"<<endl;
         return false;
     }
     int idd = curDir->getItem(".");
     if(!iNodeList.getInode(idd).inodeIsAuthor(currentUser))
     {
-        cout << "you are not authenticated!\n";
+        cout << "you are not authenticated!"<<endl;
         return false;
     }
     curDir->addItem(fileName, i);
@@ -33,7 +33,7 @@ bool superBlock::createFile(const string& fileName, Directory *curDir)
         int bid = superGroup.getFreeBlock();
         if(bid == -1)
         {
-            cout << "block has been run out\n";
+            cout << "block has been run out"<<endl;
             return false;
         }
         iNodeList.getInode(id).addBlock(bid);
@@ -60,7 +60,7 @@ void superBlock::deleteFile(const string& fileName, Directory &directory)
     pos = directory.getItem(fileName);
     if (pos == -1)
     {
-        cout << "the file does not exist!" << endl;
+        cout << "the file does not exist!"<<endl;
         return;
     }
     directory.deleteItem(fileName);
@@ -520,7 +520,16 @@ void fileSystem::fileDelete(const string &fileName)
         closeFileForDelete(fileName);
         num--;
     }
+    if(superBlock.iNodeList.getInode(pos).inodeIsAuthor(currentUser))
+    {
+        superBlock.deleteFile(fileName, *users.getCurDir());
+    }
+    else
+    {
+        cout << "you are not authenticated!"<<endl;
+    }
 }
+
 void fileSystem::createRootDirectory()
 {
     superBlock.iNodeList.iNodeSize++;
