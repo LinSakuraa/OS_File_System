@@ -10,6 +10,7 @@
 #include "ayxiliaryMod.h"
 #include "list.h"
 #include "blocksControl.h"
+#include "errorNotify.h"
 #ifndef OS_BETA_FILESYS_H
 #define OS_BETA_FILESYS_H
 class superBlock{

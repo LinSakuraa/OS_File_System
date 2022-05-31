@@ -5,6 +5,7 @@
 using namespace std;
 
 int main() {
+    errorNotifyInit(1);
     fileSys.init();
     os.run();
     return 0;

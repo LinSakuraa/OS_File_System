@@ -5,6 +5,7 @@
 #ifndef OS_BETA_ERRORNOTIFY_H
 #define OS_BETA_ERRORNOTIFY_H
 using namespace std;
+extern void errorNotifyInit(int optimizer);
 extern void authenticateError(int optimizer);
 extern void nodeError(int optimizer);
 extern void blockError(int optimizer);
