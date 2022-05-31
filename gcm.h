@@ -3,7 +3,7 @@
 //
 #include <stack>
 #include <iostream>
-#include "GODNING.h"
+#include "GlobalVariable.h"
 
 #ifndef OS_FILE_SYSTEM_GCM_H
 #define OS_FILE_SYSTEM_GCM_H

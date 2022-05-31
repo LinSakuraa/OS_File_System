@@ -3,7 +3,7 @@
 //
 
 #include <bits/stdc++.h>
-#include "GODNING.h"
+#include "GlobalVariable.h"
 #include "directory.h"
 #include "memory.h"
 

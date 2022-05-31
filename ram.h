@@ -2,8 +2,8 @@
 // Created by 22325 on 2022/5/30.
 //
 
-#include "bits/stdc++.h"
-#include "GODNING.h"
+#include <bits/stdc++.h>
+#include "GlobalVariable.h"
 #include "inode.h"
 
 #ifndef OS_BETA_RAM_H

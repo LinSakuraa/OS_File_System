@@ -3,7 +3,7 @@
 //
 
 #include <bits/stdc++.h>
-#include "GODNING.h"
+#include "GlobalVariable.h"
 
 #ifndef OS_FILE_SYSTEM_MEMORY_H
 #define OS_FILE_SYSTEM_MEMORY_H

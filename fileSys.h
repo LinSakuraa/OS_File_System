@@ -4,7 +4,7 @@
 //main module of the project
 #include "directory.h"
 #include "inode.h"
-#include "GODNING.h"
+#include "GlobalVariable.h"
 #include "memory.h"
 #include "user.h"
 #include "help.h"
