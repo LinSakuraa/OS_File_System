@@ -12,7 +12,7 @@
 #define OS_FILE_SYSTEM_INCODE_H
 
 //位示图
-extern bool iNodeDistributeList[INODE_NUM];
+extern bool iNodeDistributeList[nodeNum];
 
 class INode{
 private:
@@ -90,7 +90,7 @@ public:
     // 已使用的i结点数量
     int iNodeSize = 0;
     //i结点表，在初次进入程序之后获取i结点表
-    INode inodeList[INODE_NUM];
+    INode inodeList[nodeNum];
     //获取空i结点号码
     int getFreeInodeNum();
     //添加新节点
