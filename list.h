@@ -14,11 +14,11 @@ using namespace std;
 class INodeListInRam {
 
 private:
-    const int iNodeListCapacity = maxNodeNum;
+    const int iNodeListCapacity = INODET_IN_RAM;
     int iNodeListSize = 0;
-    INode iNodeList[maxNodeNum];
-    int iNodeNum[maxNodeNum];
-    int fileLock[maxNodeNum]; // 文件锁,1为读锁,2为写锁
+    INode iNodeList[INODET_IN_RAM];
+    int iNodeNum[INODET_IN_RAM];
+    int fileLock[INODET_IN_RAM]; // 文件锁,1为读锁,2为写锁
 
 public:
     // 构造函数
@@ -97,13 +97,13 @@ class FileOpenList {
 
 private:
     // 系统文件打开表最大项数
-    const int fileOpenCapacity = maxTableNumSystem;
+    const int fileOpenCapacity = MAX_FDS;
 
     // 系统文件表当前项数
     int fileOpenSize = 0;
 
     // 文件项
-    FileOpenItem fileOpenList[maxTableNumSystem];
+    FileOpenItem fileOpenList[MAX_FDS];
 
 public:
 
@@ -175,7 +175,7 @@ class UserOpenList {
 
 private:
     string username = "";
-    UserOpenItem iNodeToFile[maxTableNumUser];
+    UserOpenItem iNodeToFile[MAX_USER_FD];
 
 public:
     UserOpenList();

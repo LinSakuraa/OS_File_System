@@ -13,7 +13,7 @@ using namespace std;
 // 普通索引表
 class NormalIndex{
 private:
-    const int indexCapacity = indexSize;
+    const int indexCapacity = IDXT_SIZE;
     int sign;
     int indexSize = 0;
     vector<int> indexes;
@@ -60,7 +60,7 @@ public:
 // 混合索引表
 class MixIndex{
 private:
-    const int indexCapacity = mixIndexSize;
+    const int indexCapacity = MIX_IDXT_SIZE;
     int indexSize = 0;
     vector<int> indexes;
     NormalIndex oneIndirectIndex;

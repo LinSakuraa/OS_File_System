@@ -14,7 +14,7 @@ using namespace std;
 class GroupLeader{
 private:
     // 组容量上限
-    int groupCapacity = groupSize;
+    int groupCapacity = GROUP_SIZE;
     // 组实际大小
     int groupSize = 0;
     // 下一个组长块
@@ -49,7 +49,7 @@ private:
     // 超级栈中当前的组长块
     GroupLeader* curGroup;
     // 当前总共可用的空闲块
-    int groupTotalSize = totalSize;
+    int groupTotalSize = TOTAL_GROUP_SIZE;
 
 public:
     // 获得一个空闲块
