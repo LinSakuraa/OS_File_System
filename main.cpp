@@ -1,6 +1,6 @@
 
 #include <bits/stdc++.h>
-#include "os.h"
+#include "interface.h"
 
 using namespace std;
 
