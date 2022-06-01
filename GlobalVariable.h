@@ -5,9 +5,9 @@
 #ifndef OS_BETA_GLOBALVARIABLE_H
 #define OS_BETA_GLOBALVARIABLE_H
 
-#define BLOCK_SIZE 64 // 磁盘块大小
+#define blockSize 64 // 磁盘块大小
 #define BASIC_IDX 10 // 混合索引表中直接索引的数量
-#define IDXT_SIZE (BLOCK_SIZE/4) // index table size 普通索引表大小
+#define IDXT_SIZE (blockSize/4) // index table size 普通索引表大小
 #define ONE_IDXT_SIZE (IDXT_SIZE*IDXT_SIZE) // 二次间接索引表大小
 #define TWO_IDXT_SIZE (ONE_IDXT_SIZE*IDXT_SIZE) // 三次间接索引表大小
 #define MIX_IDXT_SIZE (BASIC_IDX+IDXT_SIZE+ONE_IDXT_SIZE+TWO_IDXT_SIZE) // mix index table size 混合索引表大小
