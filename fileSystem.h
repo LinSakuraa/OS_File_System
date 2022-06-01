@@ -7,7 +7,7 @@
 #include "GlobalVariable.h"
 #include "index.h"
 #include "userControl.h"
-#include "ayxiliaryMod.h"
+#include "supportControl.h"
 #include "list.h"
 #include "blocksControl.h"
 #include "errorNotify.h"

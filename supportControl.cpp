@@ -2,7 +2,7 @@
 // Created by 19150 on 2022/5/30.
 //
 
-#include "ayxiliaryMod.h"
+#include "supportControl.h"
 #include <windows.h>
 #include <tchar.h>
 #include <iostream>

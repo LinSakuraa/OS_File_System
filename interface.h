@@ -8,7 +8,7 @@
 #include "index.h"
 #include "blocksControl.h"
 #include "fileDirectory.h"
-#include "ayxiliaryMod.h"
+#include "supportControl.h"
 #include "list.h"
 #include "fileSystem.h"
 #include "userControl.h"
