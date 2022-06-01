@@ -11,17 +11,17 @@ User::User() { }
 
 User::User(string un, string pw, Directory *dir) : curDir(dir), username(un), password(pw) { }
 
-// 获取用户名
+// get username
 string User::getUsername() {
     return username;
 }
 
-// 获取密码
+// get password
 string User::getPassword() {
     return password;
 }
 
-// 登录
+// user login
 string User::login(string un, string pw) {
     if(un == username && pw == password) {
         state = true;
@@ -31,27 +31,27 @@ string User::login(string un, string pw) {
         return "";
 }
 
-// 获取当前目录
+// get current directory
 Directory* User::getCurDir() {
     return curDir;
 }
 
-//设置当前目录
+// set current directory
 void User::setCurDir(Directory *dir) {
     curDir = dir;
 }
 
-// 检查状态
+// check state
 bool User::check() {
     return state;
 }
 
-// 登出
+// user logout
 void User::logout() {
     state = false;
 }
 
-// 删除对应用户
+// delete user
 void User::clear() {
     curDir = nullptr;
     username = "";
@@ -59,7 +59,7 @@ void User::clear() {
     state = false;
 }
 
-//计算文件大小
+// calculate file size
 int Users::calculateFileSize(const string& filename) {
     ifstream file(filename);
     if(!file.is_open())
@@ -69,7 +69,7 @@ int Users::calculateFileSize(const string& filename) {
     return t.size();
 }
 
-// 读取用户列表
+// read user list
 void Users::readUserList() {
     ifstream file("users.txt");
     if(!file.is_open()) {
@@ -79,28 +79,28 @@ void Users::readUserList() {
     string line;
     int cnt;
     getline(file, line);
-    userListSize = atoi(line.c_str());
+    userListSize = atoi(line.c_str()); // number of users
     for(int i = 0; i < userListSize; i++) {
         getline(file, line);
         string username = line;
         getline(file, line);
         string password = line;
         User tmp(username, password);
-        userList.push_back(tmp);
+        userList.push_back(tmp); // save to vector
     }
 }
 
-//是否存在该用户
+// determine whether the user exists
 bool Users::isExistedAuthor(const string &username) {
     for(auto & i : userList){
-        if(i.getUsername() == username){
+        if(i.getUsername() == username) {
             return true;
         }
     }
     return false;
 }
 
-//新建用户
+// create a new user
 void Users::createUser(const string& username, const string& password) {
     if(!isExistedAuthor(username)) {
         User tmp(username, password);
@@ -109,14 +109,14 @@ void Users::createUser(const string& username, const string& password) {
     }
 }
 
-// 保存用户
+// save user
 void Users::saveUser() {
     ofstream file("users.txt");
     if(!file.is_open()) {
         cout << "users.txt can not open in createUser function " << endl;
         exit(0);
     }
-    file << userList.size() << endl;
+    file << userList.size() << endl; // write size first
     for(auto & i : userList) {
         file << i.getUsername() << endl;
         file << i.getPassword() << endl;
@@ -124,19 +124,19 @@ void Users::saveUser() {
     file.close();
 }
 
-//用户登录
+// user login
 bool Users::login(string username, string password) {
     for(int i = 0; i < userListSize; i ++) {
         if(!userList[i].login(username, password).empty()) {
             currentUser = username;
-            // 加载目录一类的
+
             return true;
         }
     }
     return false;
 }
 
-// 搜索用户
+// search user
 int Users::searchUser(string username) {
     for(int i = 0; i < userListSize; i ++) {
         if(userList[i].getUsername() == username)
@@ -145,7 +145,7 @@ int Users::searchUser(string username) {
     return -1;
 }
 
-// 切换用户
+// switch user
 bool Users::switchUser(string username) {
     int i = searchUser(username);
     if(i == -1)
@@ -158,7 +158,7 @@ bool Users::switchUser(string username) {
         return false;
 }
 
-// 登出
+// logout
 void Users::logout() {
     int i = searchUser(currentUser);
     if(i == -1)
@@ -167,7 +167,7 @@ void Users::logout() {
     currentUser = "";
 }
 
-// 获取当前目录
+// get current directory
 Directory* Users::getCurDir() {
     int i = searchUser(currentUser);
     if(i == -1)
@@ -175,7 +175,7 @@ Directory* Users::getCurDir() {
     return userList[i].getCurDir();
 }
 
-// 设置当前目录
+// set current directory
 void Users::setCurDir(Directory* dir) {
     int i = searchUser(currentUser);
     if(i == -1)
@@ -183,6 +183,7 @@ void Users::setCurDir(Directory* dir) {
     userList[i].setCurDir(dir);
 }
 
+// check user
 bool Users::check() {
     for(auto& it:userList) {
         if(it.check())
@@ -191,6 +192,7 @@ bool Users::check() {
     return false;
 }
 
+// show directory
 void Users::showDir() {
     Directory* curDir = getCurDir();
     curDir -> show();

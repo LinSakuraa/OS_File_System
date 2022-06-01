@@ -23,79 +23,38 @@ private:
 
 public:
     User();
-
     User(string un, string pw, Directory* dir = nullptr);
-
-    // 获取用户名
-    string getUsername();
-
-    // 获取密码
-    string getPassword();
-
-    // 登录
-    string login(string un, string pw);
-
-    // 读取当前目录
-    Directory* getCurDir();
-
-    // 修改当前目录项
-    void setCurDir(Directory* dir);
-
-    // 检查状态
-    bool check();
-
-    // 登出
-    void logout();
-
-    void clear();
+    string getUsername();                       // get username
+    string getPassword();                       // get password
+    string login(string un, string pw);         // user login
+    Directory* getCurDir();                     // get current directory
+    void setCurDir(Directory* dir);             // set current directory
+    bool check();                               // check state
+    void logout();                              // user logout
+    void clear();                               // delete user
 };
 
 extern string currentUser;
 
-//把user的表读到用户数组中去
 class Users {
 private:
     int userListSize = 0;
 
 public:
     vector<User> userList;
-
-    //计算文件大小
-    int calculateFileSize(const string& filename);
-
-    // 读取用户列表
-    void readUserList();
-
-    //是否存在该用户
-    bool isExistedAuthor(const string& username);
-
-    //新建用户
-    void createUser(const string& username, const string& password);
-
-    // 保存用户
-    void saveUser();
-
-    // 用户登录
-    bool login(string username, string password);
-
-    // 搜索用户
-    int searchUser(string username);
-
-    // 切换用户
-    bool switchUser(string username);
-
-    // 用户登出
-    void logout();
-
-    // 获取当前目录
-    Directory* getCurDir();
-
-    // 设置当前目录
-    void setCurDir(Directory* dir);
-
-    bool check();
-
-    void showDir();
+    int calculateFileSize(const string& filename);                      // calculate file size
+    void readUserList();                                                // read user list
+    bool isExistedAuthor(const string& username);                       // determine whether the user exists
+    void createUser(const string& username, const string& password);    // create a new user
+    void saveUser();                                                    // save user
+    bool login(string username, string password);                       // user login
+    int searchUser(string username);                                    // search user
+    bool switchUser(string username);                                   // switch user
+    void logout();                                                      // logout
+    Directory* getCurDir();                                             // get current directory
+    void setCurDir(Directory* dir);                                     // set current directory
+    bool check();                                                       // check user
+    void showDir();                                                     // show directory
 };
 
 #endif //OS_BETA_USERCONTROL_H
