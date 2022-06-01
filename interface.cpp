@@ -144,8 +144,10 @@ void OS::run()
         } else if(cmd == "exit") { // 退出
             exit(0);
         } else if(cmd == "help") { // 帮助
-            help();
-        } else if(cmd == "save") { // 保存
+            help(0);
+        } else if(cmd == "helpx") {
+            help(1);
+        }else if(cmd == "save") { // 保存
             fileSys.saveInodeInfo();
         } else if(cmd == "readInfo") { // 读取
             fileSys.readInodeInfo();
@@ -165,30 +167,7 @@ void OS::run()
     }
 }
 
-void OS::help()
+void OS::help(int optimizer)
 {
-    cout << "   *************************************** help ******************************************" << endl;
-    cout << endl;
-    cout << "         | register      |               |               | " << "user register           |" << endl;
-    cout << "         | login         |               |               | " << "user login              |" << endl;
-    cout << "         | logout        |               |               | " << "user logout             |" << endl;
-    cout << "         | mkdir         | dirname       |               | " << "create directory        |" << endl;
-    cout << "         | rmdir         | dirname       |               | " << "delete directory        |" << endl;
-    cout << "         | cd            | dirname       |               | " << "enter directory         |" << endl;
-    cout << "         | create        | filename      |               | " << "create file             |" << endl;
-    cout << "         | open          | filename      |               | " << "open file               |" << endl;
-    cout << "         | close         | filename      |               | " << "close file              |" << endl;
-    cout << "         | read          | filename      | length        | " << "read file content       |" << endl;
-    cout << "         | write         | filename      | content       | " << "write to file           |" << endl;
-    cout << "         | delete        | filename      |               | " << "delete file             |" << endl;
-    cout << "         | format        |               |               | " << "format file             |" << endl;
-    cout << "         | cl            | username      |               | " << "change user             |" << endl;
-    cout << "         | justCopy      | filename      |               | " << "copy file               |" << endl;
-    cout << "         | paste         |               |               | " << "paste file              |" << endl;
-    cout << "         | cut           | filename      |               | " << "cut file                |" << endl;
-    cout << "         | rename        | filename      | newName       | " << "rename filename         |" << endl;
-    cout << "         | show          | filename      |               | " << "show file content       |" << endl;
-    cout << "         | exit          |               |               | " << "exit exe                |" << endl;
-    cout << "         | add           | filename      | newName       | " << "add content for file    |" << endl;
-    cout << "         | copy          | filename      | newName       | " << "copy content for file   |" << endl;
+    helpList(optimizer);
 }

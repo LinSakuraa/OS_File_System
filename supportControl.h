@@ -10,11 +10,8 @@
 
 using namespace std;
 
-extern int statistic(string filename);
-
 extern string getCurrentTime();
-
-//获取本地电脑主机名的函数，用来最后进行菜单的显示
+extern void helpList(int optimizer);
 extern string getLocalIpName();
-
+extern int statistic(string filename);
 #endif //OS_BETA_AYXILIARYMOD_H

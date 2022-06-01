@@ -10,7 +10,43 @@
 #include <cstdio>
 using namespace std;
 
+extern void helpList(int optimizer)
+{
+    switch (optimizer) {
+        case 0:
+            {
+                cout << "   *************************************** help ******************************************" << endl;
+                cout << "         | command       | optimizer     | optimizer     | " << "function explanation    |" << endl;
+                cout << "         | register      |               |               | " << "user register           |" << endl;
+                cout << "         | login         |               |               | " << "user login              |" << endl;
+                cout << "         | logout        |               |               | " << "user logout             |" << endl;
+                cout << "         | dir           |               |               | " << "show directory          |" << endl;
+                cout << "         | mkdir         | dirname       |               | " << "create directory        |" << endl;
+                cout << "         | cd            | dirname       |               | " << "enter directory         |" << endl;
+                cout << "         | rmdir         | dirname       |               | " << "delete directory        |" << endl;
+                cout << "         | create        | filename      |               | " << "create file             |" << endl;
+                cout << "         | write         | filename      | content       | " << "write to file           |" << endl;
+                cout << "         | close         | filename      |               | " << "close file              |" << endl;
+                cout << "         | open          | filename      |               | " << "open file               |" << endl;
+                cout << "         | read          | filename      | length        | " << "read file content       |" << endl;
+                cout << "         | delete        | filename      |               | " << "delete file             |" << endl;
+                cout << "         | format        |               |               | " << "format file             |" << endl;
+                cout << "         | cl            | username      |               | " << "change user             |" << endl;
+                cout << "         | justCopy      | filename      |               | " << "copy file               |" << endl;
+                cout << "         | paste         |               |               | " << "paste file              |" << endl;
+                cout << "         | cut           | filename      |               | " << "cut file                |" << endl;
+                cout << "         | rename        | filename      | newName       | " << "rename filename         |" << endl;
+                cout << "         | show          | filename      |               | " << "show file content       |" << endl;
+                cout << "         | exit          |               |               | " << "exit exe                |" << endl;
+                cout << "         | add           | filename      | newName       | " << "add content for file    |" << endl;
+                cout << "         | copy          | filename      | newName       | " << "copy content for file   |" << endl;
+            }
+            break;
+        case 1:cout << "extreme help is not access now, please try later"<<endl;
+            break;
 
+    }
+}
 
 int statistic(const string& filename)
 {
