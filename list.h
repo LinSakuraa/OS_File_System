@@ -6,8 +6,8 @@
 #include "GlobalVariable.h"
 #include "nodeList.h"
 
-#ifndef OS_BETA_RAM_H
-#define OS_BETA_RAM_H
+#ifndef OS_BETA_LIST_H
+#define OS_BETA_LIST_H
 
 using namespace std;
 
@@ -210,4 +210,4 @@ public:
     void show();
 };
 
-#endif //OS_BETA_RAM_H
+#endif //OS_BETA_LIST_H

@@ -5,8 +5,8 @@
 #include <iostream>
 #include "GlobalVariable.h"
 
-#ifndef OS_FILE_SYSTEM_GCM_H
-#define OS_FILE_SYSTEM_GCM_H
+#ifndef OS_BETA_BLOCKSCONTROL_H
+#define OS_BETA_BLOCKSCONTROL_H
 
 using namespace std;
 
@@ -65,4 +65,4 @@ public:
 };
 
 
-#endif //OS_FILE_SYSTEM_GCM_H
+#endif //OS_BETA_BLOCKSCONTROL_H

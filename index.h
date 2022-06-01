@@ -5,8 +5,8 @@
 #include <bits/stdc++.h>
 #include "GlobalVariable.h"
 
-#ifndef OS_FILE_SYSTEM_MEMORY_H
-#define OS_FILE_SYSTEM_MEMORY_H
+#ifndef OS_BETA_INDEX_H
+#define OS_BETA_INDEX_H
 
 using namespace std;
 
@@ -104,4 +104,4 @@ public:
     vector<int> getIndexes();
 };
 
-#endif //OS_FILE_SYSTEM_MEMORY_H
+#endif //OS_BETA_INDEX_H

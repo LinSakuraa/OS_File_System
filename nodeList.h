@@ -8,8 +8,8 @@
 #include "index.h"
 
 
-#ifndef OS_FILE_SYSTEM_INCODE_H
-#define OS_FILE_SYSTEM_INCODE_H
+#ifndef OS_BETA_NODELIST_H
+#define OS_BETA_NODELIST_H
 
 //位示图
 extern bool iNodeDistributeList[INODE_NUM];
@@ -108,4 +108,4 @@ public:
 extern INode cache;
 extern string cacheFilename;
 
-#endif //OS_FILE_SYSTEM_INCODE_H
+#endif //OS_BETA_NODELIST_H

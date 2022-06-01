@@ -2,8 +2,8 @@
 // Created by LinSakura on 2022/5/30.
 //
 #include <bits/stdc++.h>
-#ifndef OS_BETA_DIRECTORY_H
-#define OS_BETA_DIRECTORY_H
+#ifndef OS_BETA_FILEDIRECTORY_H
+#define OS_BETA_FILEDIRECTORY_H
 using namespace std;
 class Directory{
 private:
@@ -27,4 +27,4 @@ public:
     string getFileName(int id);                         //get the file name of id
     string getFileNameMap(int pos);                     //get the file name of position in map
 };
-#endif //OS_BETA_DIRECTORY_H
+#endif //OS_BETA_FILEDIRECTORY_H

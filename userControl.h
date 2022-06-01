@@ -9,8 +9,8 @@
 #include "nodeList.h"
 #include "fileDirectory.h"
 
-#ifndef OS_BETA_USER_H
-#define OS_BETA_USER_H
+#ifndef OS_BETA_USERCONTROL_H
+#define OS_BETA_USERCONTROL_H
 
 using namespace std;
 
@@ -98,4 +98,4 @@ public:
     void showDir();
 };
 
-#endif //OS_BETA_USER_H
+#endif //OS_BETA_USERCONTROL_H

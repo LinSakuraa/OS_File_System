@@ -11,8 +11,8 @@
 #include "list.h"
 #include "blocksControl.h"
 #include "errorNotify.h"
-#ifndef OS_BETA_FILESYS_H
-#define OS_BETA_FILESYS_H
+#ifndef OS_BETA_FILESYSTEM_H
+#define OS_BETA_FILESYSTEM_H
 class superBlock{
 private:
 
@@ -73,4 +73,4 @@ public:
     void add(string fileName, string newName);                  //add file
 };
 extern fileSystem fileSys;
-#endif //OS_BETA_FILESYS_H
+#endif //OS_BETA_FILESYSTEM_H

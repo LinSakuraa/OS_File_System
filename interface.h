@@ -16,8 +16,8 @@
 
 using namespace std;
 
-#ifndef OS_BETA_OS_H
-#define OS_BETA_OS_H
+#ifndef OS_BETA_INTERFACE_H
+#define OS_BETA_INTERFACE_H
 
 class OS {
 public:
@@ -28,4 +28,4 @@ public:
 
 extern OS os;
 
-#endif //OS_BETA_OS_H
+#endif //OS_BETA_INTERFACE_H

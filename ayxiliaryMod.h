@@ -5,8 +5,8 @@
 #include <bits/stdc++.h>
 #include "userControl.h"
 
-#ifndef OS_FILE_SYSTEM_HELP_H
-#define OS_FILE_SYSTEM_HELP_H
+#ifndef OS_BETA_AYXILIARYMOD_H
+#define OS_BETA_AYXILIARYMOD_H
 
 using namespace std;
 
@@ -18,4 +18,4 @@ extern string getCurrentTime();
 extern string getLocalIpName();
 
 
-#endif //OS_FILE_SYSTEM_HELP_H
+#endif //OS_BETA_AYXILIARYMOD_H
