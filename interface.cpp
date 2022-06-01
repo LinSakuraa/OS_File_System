@@ -8,8 +8,8 @@ OS os;
 
 void OS::printTitle()
 {
-    string path = "";
-    if(currentUser == "") {
+    string path;
+    if(currentUser.empty()) {
         cout << "$/>";
         return;
     } else {
@@ -47,9 +47,8 @@ void OS::run()
     while (true) {
         printTitle();
         cin >> cmd;
-        // 登录
-        if(cmd == "login") {
-            string username, password = "";
+        if(cmd == "login") { // login
+            string username, password;
             cout << "username:";
             cin >> username;
             cout << "password:";
@@ -59,17 +58,17 @@ void OS::run()
                 cout << "welcome " << username << endl;
             else
                 cout << "wrong username or password" << endl;
-        } else if(cmd == "cd") { // 进入目录
+        } else if(cmd == "cd") { // enter directory
             string index;
             cin >> index;
             fileSys.cd(index);
-        } else if(cmd == "mkdir") { //创建目录
+        } else if(cmd == "mkdir") { // create directory
             string index;
             cin >> index;
             fileSys.directoryCreate(index);
         } else if(cmd == "dir")  { // 展示列表
             fileSys.showDir();
-        } else if(cmd == "create") { // 创建文件
+        } else if(cmd == "create") { // create file
             string filename;
             cin >> filename;
             fileSys.fileCreate(filename);
@@ -168,27 +167,28 @@ void OS::run()
 
 void OS::help()
 {
-    cout << "login\t\t\t\t   " << "user login" << endl;
-    cout << "logout\t\t\t\t\t" << "user logout" << endl;
-    cout << "mkdir\t   dirname\t\t\t" << "create directory" << endl;
-    cout << "rmdir\t   dirname\t\t\t" << "delete directory" << endl;
-    cout << "cd\t   dirname\t\t\t" << "enter directory" << endl;
-    cout << "create\t   filename\t\t\t" << "create file" << endl;
-    cout << "open\t   filename\t\t\t" << "open file" << endl;
-    cout << "close\t   filename\t\t\t" << "close file" << endl;
-    cout << "read\t   filename\tlength\t\t" << "read file content" << endl;
-    cout << "write\t   filename\tcontent\t\t" << "write to file" << endl;
-    cout << "delete\t   filename\t\t\t" << "delete file" << endl;
-    cout << "format\t\t\t\t\t" << "format file" << endl;
-    cout << "cl\t   username\t\t\t" << "change user" << endl;
-    cout << "justCopy   filename\t\t\t" << "copy file" << endl;
-    cout << "paste\t\t\t\t\t" << "paste file" << endl;
-    cout << "cut\t   filename\t\t\t" << "cut file" << endl;
-    cout << "rename\t   filename\tnewName\t\t" << "rename filename" << endl;
-    cout << "fileSeek   offset\t\t\t" << "reposition" << endl;
-    cout << "show\t   filename\t\t\t" << "show file content" << endl;
-    cout << "showIndex  filename\t\t\t" << "show message of file block using" << endl;
-    cout << "exit\t\t\t\t\t" << "exit exe" << endl;
-    cout << "add\t   filename\tnewName\t\t" << "add content for file" << endl;
-    cout << "copy\t   filename\tnewName\t\t" << "copy content for file" << endl;
+    cout << "   *************************************** help ******************************************" << endl;
+    cout << endl;
+    cout << "         | register      |               |               | " << "user register           |" << endl;
+    cout << "         | login         |               |               | " << "user login              |" << endl;
+    cout << "         | logout        |               |               | " << "user logout             |" << endl;
+    cout << "         | mkdir         | dirname       |               | " << "create directory        |" << endl;
+    cout << "         | rmdir         | dirname       |               | " << "delete directory        |" << endl;
+    cout << "         | cd            | dirname       |               | " << "enter directory         |" << endl;
+    cout << "         | create        | filename      |               | " << "create file             |" << endl;
+    cout << "         | open          | filename      |               | " << "open file               |" << endl;
+    cout << "         | close         | filename      |               | " << "close file              |" << endl;
+    cout << "         | read          | filename      | length        | " << "read file content       |" << endl;
+    cout << "         | write         | filename      | content       | " << "write to file           |" << endl;
+    cout << "         | delete        | filename      |               | " << "delete file             |" << endl;
+    cout << "         | format        |               |               | " << "format file             |" << endl;
+    cout << "         | cl            | username      |               | " << "change user             |" << endl;
+    cout << "         | justCopy      | filename      |               | " << "copy file               |" << endl;
+    cout << "         | paste         |               |               | " << "paste file              |" << endl;
+    cout << "         | cut           | filename      |               | " << "cut file                |" << endl;
+    cout << "         | rename        | filename      | newName       | " << "rename filename         |" << endl;
+    cout << "         | show          | filename      |               | " << "show file content       |" << endl;
+    cout << "         | exit          |               |               | " << "exit exe                |" << endl;
+    cout << "         | add           | filename      | newName       | " << "add content for file    |" << endl;
+    cout << "         | copy          | filename      | newName       | " << "copy content for file   |" << endl;
 }

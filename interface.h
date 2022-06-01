@@ -21,9 +21,9 @@ using namespace std;
 
 class OS {
 public:
-    void printTitle();
-    void run();
-    void help();
+    void printTitle();  // load title
+    void run();         // run the whole exe
+    void help();        // help
 };
 
 extern OS os;
