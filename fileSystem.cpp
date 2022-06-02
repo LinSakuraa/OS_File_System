@@ -73,6 +73,10 @@ void superBlock::createDirectory(const string &directoryName, INode &dir, Direct
     iNodeList.iNodeSize++;
     iNodeDistributeList[pos] = true;
     iNodeList.inodeList[pos] = dir;
+    if(directory->checkItem(directoryName))
+    {
+        directoryError(3);
+    }
     directory->addItem(directoryName, pos);
 }
 void superBlock::deleteDirectory(const string &directoryName, INode &dir, Directory &directory, int pos)
