@@ -73,10 +73,6 @@ void superBlock::createDirectory(const string &directoryName, INode &dir, Direct
     iNodeList.iNodeSize++;
     iNodeDistributeList[pos] = true;
     iNodeList.inodeList[pos] = dir;
-    if(directory->checkItem(directoryName))
-    {
-        directoryError(3);
-    }
     directory->addItem(directoryName, pos);
 }
 void superBlock::deleteDirectory(const string &directoryName, INode &dir, Directory &directory, int pos)
@@ -471,7 +467,13 @@ void fileSystem::directoryCreate(const string &directoryName)
     int cur_id = pos;
     INode newInode(1, getCurrentTime(), getCurrentTime(), currentUser);
     newInode.dir.init(cur_id, parent_id);
-    if(superBlock.iNodeList.getInode(parent_id).inodeIsAuthor(currentUser))
+    auto* d = users.getCurDir();
+    if(d->checkItem(directoryName))
+    {
+        directoryError(3);
+        return;
+    }
+    else if(superBlock.iNodeList.getInode(parent_id).inodeIsAuthor(currentUser))
     {
         superBlock.createDirectory(directoryName, newInode, users.getCurDir(), pos);
     }
@@ -533,7 +535,6 @@ void fileSystem::fileDelete(const string &fileName)
         authenticateError(1);
     }
 }
-
 void fileSystem::createRootDirectory()
 {
     superBlock.iNodeList.iNodeSize++;
