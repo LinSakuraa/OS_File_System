@@ -84,13 +84,13 @@ void OS::run()
             string index;
             cin >> index;
             fileSys.directoryCreate(index);
-        } else if(cmd == "dir")  { // 展示列表
+        } else if(cmd == "dir")  { // show dir
             fileSys.showDir();
         } else if(cmd == "create") { // create file
             string filename;
             cin >> filename;
             fileSys.createFile(filename);
-        } else if(cmd == "open") { // 打开文件
+        } else if(cmd == "open") { // open file
             string filename;
             int sign, mode;
             cin >> filename;
@@ -103,73 +103,73 @@ void OS::run()
             if(mode != 0 && mode != 1)
                 mode = 0;
             fileSys.openFile(filename, sign, mode);
-        } else if(cmd == "close") { // 关闭文件
+        } else if(cmd == "close") { // close file
             string filename;
             cin >> filename;
             fileSys.closeFile(filename);
-        } else if(cmd == "read") { // 读取文件
+        } else if(cmd == "read") { // read file
             string filename;
             cin >> filename;
             int len;
             cin >> len;
             cout << fileSys.readFile(filename, len);
-        } else if(cmd == "write") { // 写入文件
+        } else if(cmd == "write") { // write file 2 optimizer
             string filename;
             cin >> filename;
             string content;
             getline(cin, content);
             content = content.substr(1);
             fileSys.writeFile(filename, content);
-        } else if(cmd == "delete") { // 删除文件
+        } else if(cmd == "delete") { // delete file
             string filename;
             cin >> filename;
             fileSys.fileDelete(filename);
-        } else if(cmd == "logout") { // 登出
+        } else if(cmd == "logout") { // log out
             fileSys.users.logout();
-        } else if(cmd == "rmdir") { // 删除目录
+        } else if(cmd == "rmdir") { // del directory
             string filename;
             cin >> filename;
             fileSys.directoryDelete(filename);
-        } else if(cmd == "format") { // 格式化
+        } else if(cmd == "format") { //format
             fileSys.formatFileSystem();
-        } else if(cmd == "cl") { // 改变登录账号
+        } else if(cmd == "cl") { // change users
             string username;
             cin >> username;
             fileSys.users.switchUser(username);
-        } else if(cmd == "justCopy") {// 复制
+        } else if(cmd == "justCopy") {// copy
             string filename;
             cin >> filename;
             fileSys.copy(filename);
-        } else if(cmd == "paste") { // 粘贴
+        } else if(cmd == "paste") { // paste
             fileSys.paste();
-        } else if(cmd == "cut") { // 剪切
+        } else if(cmd == "cut") { // cut
             string filename;
             cin >> filename;
             fileSys.cut(filename);
-        } else if(cmd == "rename") { // 文件重命名
+        } else if(cmd == "rename") { // rename
             string filename, newName;
             cin >> filename >> newName;
             fileSys.fileRename(filename, newName);
-        } else if(cmd == "fileSeek") { // 文件内重定位
+        } else if(cmd == "fileSeek") { // re position pointer
             string filename;
             int offset;
             cin >> filename >> offset;
             fileSys.fSeek(filename, offset);
-        } else if(cmd == "showIndex") { // 显示文件信息
+        } else if(cmd == "showIndex") { // show information of files
             string filename;
             cin >> filename;
             fileSys.showFile(filename);
-        } else if(cmd == "exit") { // 退出
+        } else if(cmd == "exit") { // quit
             exit(0);
-        } else if(cmd == "help") { // 帮助
+        } else if(cmd == "help") { // help list
             help(0);
-        } else if(cmd == "helpx") {
+        } else if(cmd == "helpx") {//help list extreme
             help(1);
-        }else if(cmd == "save") { // 保存
+        }else if(cmd == "save") { // save
             fileSys.saveInodeInfo();
-        } else if(cmd == "readInfo") { // 读取
+        } else if(cmd == "readInfo") { // read
             fileSys.readInodeInfo();
-        } else if(cmd == "copy") { // 复制到当前目录另一个文件
+        } else if(cmd == "copy") { // copy to another file
             string filename, newName;
             cin >> filename >> newName;
             fileSys.copy2(filename, newName);
