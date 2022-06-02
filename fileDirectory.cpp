@@ -81,12 +81,12 @@ int Directory::getNumFileDir()
 string Directory::saveStringDir()
 {
     map<string, int>::iterator iter;
-    string ans;
+    string temp;
     for(iter=directory.begin(); iter!=directory.end(); iter++){
-        ans += (iter->first +'\n');
-        ans += (to_string(iter->second) + '\n');
+        temp += (iter->first + '\n');
+        temp += (to_string(iter->second) + '\n');
     }
-    return ans;
+    return temp;
 }
 string Directory::getFileName(int id)
 {
@@ -100,7 +100,8 @@ string Directory::getFileName(int id)
 string Directory::getFileNameMap(int pos)
 {
     int count = 0;
-    for(auto &it : directory){
+    for(auto &it : directory)
+    {
         if(count == pos){
             return it.first;
         }
