@@ -94,7 +94,7 @@ void OS::run()
             string filename;
             int sign, mode;
             cin >> filename;
-            cout << "offset[0/1]:";
+            cout << "insert[0/1]:";
             cin >> sign;
             if(sign != 0 && sign != 1)
                 sign = 0;
@@ -136,7 +136,7 @@ void OS::run()
             string username;
             cin >> username;
             fileSys.users.switchUser(username);
-        } else if(cmd == "justCopy") {// copy
+        } else if(cmd == "justcopy") {// copy
             string filename;
             cin >> filename;
             fileSys.copy(filename);
@@ -150,12 +150,12 @@ void OS::run()
             string filename, newName;
             cin >> filename >> newName;
             fileSys.fileRename(filename, newName);
-        } else if(cmd == "fileSeek") { // re position pointer
+        } else if(cmd == "fileseek") { // re position pointer
             string filename;
             int offset;
             cin >> filename >> offset;
             fileSys.fSeek(filename, offset);
-        } else if(cmd == "showIndex") { // show information of files
+        } else if(cmd == "showindex") { // show information of files
             string filename;
             cin >> filename;
             fileSys.showFile(filename);

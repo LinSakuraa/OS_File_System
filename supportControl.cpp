@@ -31,7 +31,7 @@ extern void helpList(int optimizer)
                 cout << "   13.   | delete        | filename      |               | " << "delete file             |" << endl;
                 cout << "   14.   | format        |               |               | " << "format file             |" << endl;
                 cout << "   15.   | cl            | username      |               | " << "change user             |" << endl;
-                cout << "   16.   | justCopy      | filename      |               | " << "copy file               |" << endl;
+                cout << "   16.   | justcopy      | filename      |               | " << "copy file               |" << endl;
                 cout << "   17.   | paste         |               |               | " << "paste file              |" << endl;
                 cout << "   18.   | cut           | filename      |               | " << "cut file                |" << endl;
                 cout << "   19.   | rename        | filename      | newName       | " << "rename filename         |" << endl;
