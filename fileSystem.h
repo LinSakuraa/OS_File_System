@@ -42,7 +42,7 @@ public:
     FileOpenList fileOpenList;
     map<string,UserOpenList> userOpenList;
     //functions
-    void fileCreate(const string& fileName);                    //create file
+    void createFile(const string& fileName);                    //create file
     void saveInodeInfo();                                       //save all i node when user quit
     void readInodeInfo();                                       //read all i node when user login
     bool openFile(string fileName, int sign = 0, int mode = 0); //open file

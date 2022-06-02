@@ -91,7 +91,7 @@ void superBlock::deleteFileAndDirectory()
 
 }
 //file system functions
-void fileSystem::fileCreate(const string &fileName)
+void fileSystem::createFile(const string &fileName)
 {
     Directory* cur_dir = users.getCurDir();
     if(cur_dir != nullptr)

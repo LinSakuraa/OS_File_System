@@ -71,7 +71,7 @@ void OS::run()
         } else if(cmd == "create") { // create file
             string filename;
             cin >> filename;
-            fileSys.fileCreate(filename);
+            fileSys.createFile(filename);
         } else if(cmd == "open") { // 打开文件
             string filename;
             int sign, mode;
