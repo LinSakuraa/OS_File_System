@@ -12,7 +12,7 @@ using namespace std;
 
 class GroupLeader{
 private:
-    int groupCapacity = GROUP_SIZE;         //50 maximum group capacity
+    int groupCapacity = GROUPSIZE;         //50 maximum group capacity
     int groupSize = 0;                      //the size of group
     GroupLeader* nextLeader;                //next leader block
     stack<int> groups;
@@ -32,7 +32,7 @@ public:
 class superGroup{
 private:
     GroupLeader* curGroup;
-    int groupTotalSize = TOTAL_GROUP_SIZE;      //500  free block
+    int groupTotalSize = TOTALGROUPSIZE;      //500  free block
 
 public:
     int getFreeBlock();

@@ -6,13 +6,13 @@
 
 // init node
 INodeListInRam::INodeListInRam() {
-    for(int i = 0; i < INODET_IN_RAM; i++)
+    for(int i = 0; i < MAXINODETNUM; i++)
         iNodeNum[i] = -1, fileLock[i] = 0;
 }
 
 // get empty node
 int INodeListInRam::getFreeNode() {
-    for(int i = 0; i < INODET_IN_RAM; i++) {
+    for(int i = 0; i < MAXINODETNUM; i++) {
         if(!iNodeList[i].check()) // select iNodes without any connections
             return i;
     }
@@ -46,7 +46,7 @@ INode INodeListInRam::freeNode(int id) {
 
 // search index of node
 int INodeListInRam::searchNode(int id) {
-    for(int i = 0; i < INODET_IN_RAM; i++)
+    for(int i = 0; i < MAXINODETNUM; i++)
         if(iNodeNum[i] == id)
             return i;
     return -1;
@@ -138,7 +138,7 @@ int FileOpenItem::getMode() {
 
 // reset open size
 void FileOpenList::clear() {
-    for(int i = 0; i < MAX_FDS; i++) {
+    for(int i = 0; i < SYSTEMFILEMAXNUM; i++) {
         if(fileOpenList[i].getLink() > 0)
             fileOpenList[i].clear();
     }
@@ -210,7 +210,7 @@ int FileOpenList::getItemINode(int id) {
 
 // get free item
 int FileOpenList::getFreeItem() {
-    for(int i = 0; i < MAX_FDS; i++)
+    for(int i = 0; i < SYSTEMFILEMAXNUM; i++)
         if(fileOpenList[i].getLink() == 0)
             return i;
     return -1;
@@ -273,7 +273,7 @@ UserOpenList::UserOpenList(string username) : username(username) { }
 // reset
 void UserOpenList::clear() {
     username = "";
-    for(int i = 0; i < MAX_USER_FD; i++)
+    for(int i = 0; i < USERFILEMAXNUM; i++)
         iNodeToFile[i].clear();
 }
 
@@ -287,7 +287,7 @@ int UserOpenList::getFileId(int iNodeId, int num) {
 
 // search id
 int UserOpenList::searchId(int iNodeId, int num) {
-    for(int i = 0; i < MAX_USER_FD; i++)
+    for(int i = 0; i < USERFILEMAXNUM; i++)
         if(iNodeToFile[i].getDescriptor() == iNodeId) {
             num--;
             if(num == 0)
@@ -298,7 +298,7 @@ int UserOpenList::searchId(int iNodeId, int num) {
 
 // search free id
 int UserOpenList::searchFreeItem() {
-    for(int i = 0; i < MAX_USER_FD; i++)
+    for(int i = 0; i < USERFILEMAXNUM; i++)
         if(iNodeToFile[i].check() == false)
             return i;
     return -1;
@@ -331,7 +331,7 @@ string UserOpenList::getUserName() {
 // count times a file opened
 int UserOpenList::count(int iNodeId) {
     int count = 0;
-    for(int i = 0; i < MAX_USER_FD; i++)
+    for(int i = 0; i < USERFILEMAXNUM; i++)
         if(iNodeToFile[i].getDescriptor() == iNodeId)
             count++;
     return count;
@@ -339,7 +339,7 @@ int UserOpenList::count(int iNodeId) {
 
 // show message
 void UserOpenList::show() {
-    for(int i = 0; i < MAX_USER_FD; i++)
+    for(int i = 0; i < USERFILEMAXNUM; i++)
         if(iNodeToFile[i].getDescriptor() != -1 && iNodeToFile[i].getId() != -1)
             cout << iNodeToFile[i].getDescriptor() << " " << iNodeToFile[i].getId() << endl;
 }

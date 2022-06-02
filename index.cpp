@@ -174,13 +174,13 @@ bool MixIndex::addIndex(int id)
         return false;
     else
     {
-        if(indexSize < BASIC_IDX) // 直接索引
+        if(indexSize < DIRECTINDEXNUM) // 直接索引
             return addDirectIndex(id);
-        else if(indexSize >= BASIC_IDX && indexSize < BASIC_IDX + IDXT_SIZE) // 一次间接索引
+        else if(indexSize >= DIRECTINDEXNUM && indexSize < DIRECTINDEXNUM + INDEXTABLESIZE) // 一次间接索引
             return addOneIndirectIndex(id);
-        else if(indexSize >= BASIC_IDX + IDXT_SIZE && indexSize < BASIC_IDX + IDXT_SIZE + ONE_IDXT_SIZE) // 两次间接索引
+        else if(indexSize >= DIRECTINDEXNUM + INDEXTABLESIZE && indexSize < DIRECTINDEXNUM + INDEXTABLESIZE + SECONDINDEXSIZE) // 两次间接索引
             return addTwoIndirectIndex(id);
-        else if(indexSize >= BASIC_IDX + IDXT_SIZE + ONE_IDXT_SIZE && indexSize < MIX_IDXT_SIZE) // 三次简介索引
+        else if(indexSize >= DIRECTINDEXNUM + INDEXTABLESIZE + SECONDINDEXSIZE && indexSize < MIXINDEXSIZE) // 三次简介索引
             return addThreeIndirectIndex(id);
         else
             return false;
@@ -207,12 +207,12 @@ bool MixIndex::addOneIndirectIndex(int id)
 bool MixIndex::addTwoIndirectIndex(int id)
 {
     // 计算超出前两部分索引的数量
-    int n = indexSize - BASIC_IDX - IDXT_SIZE;
-    if(n % IDXT_SIZE == 0) //正好填满前一个二次间址索引块
+    int n = indexSize - DIRECTINDEXNUM - INDEXTABLESIZE;
+    if(n % INDEXTABLESIZE == 0) //正好填满前一个二次间址索引块
         twoIndirectIndex.addNxtIndex(); // 新建一个索引块
 
     //获得当前未满的二次间址索引块
-    NormalIndex &t = twoIndirectIndex.getNxtIndex(n / IDXT_SIZE);
+    NormalIndex &t = twoIndirectIndex.getNxtIndex(n / INDEXTABLESIZE);
     t.addIndex(id);
     indexSize++;
     return true; // 添加索引
@@ -222,17 +222,17 @@ bool MixIndex::addTwoIndirectIndex(int id)
 bool MixIndex::addThreeIndirectIndex(int id)
 {
     // 计算超出前三部分索引的数量
-    int n = indexSize - BASIC_IDX - IDXT_SIZE - ONE_IDXT_SIZE;
-    if(n % ONE_IDXT_SIZE == 0) // 正好填满前一个二次间址索引块
+    int n = indexSize - DIRECTINDEXNUM - INDEXTABLESIZE - SECONDINDEXSIZE;
+    if(n % SECONDINDEXSIZE == 0) // 正好填满前一个二次间址索引块
         threeIndirectIndex.addNxtIndex(); // 新建一个二次间址索引块
 
     // 获得当前未满的二次间址索引块
-    NormalIndex &t = threeIndirectIndex.getNxtIndex(n / ONE_IDXT_SIZE);
-    if(n % IDXT_SIZE == 0) // 正好填满一个三次间址索引块
+    NormalIndex &t = threeIndirectIndex.getNxtIndex(n / SECONDINDEXSIZE);
+    if(n % INDEXTABLESIZE == 0) // 正好填满一个三次间址索引块
         t.addNxtIndex(); // 新建一个三次间址索引块
 
     // 获得当前未满的三次间址索引块
-    NormalIndex &nxt = t.getNxtIndex((n % ONE_IDXT_SIZE) / IDXT_SIZE);
+    NormalIndex &nxt = t.getNxtIndex((n % SECONDINDEXSIZE) / INDEXTABLESIZE);
     nxt.addIndex(id);
     indexSize++;
     return true; // 添加索引
@@ -248,17 +248,17 @@ vector<int> MixIndex::getIndexes()
 {
     vector<int> t;
     // 获取直接索引编号
-    for(int i = 0; i < min(indexSize, BASIC_IDX); i++)
+    for(int i = 0; i < min(indexSize, DIRECTINDEXNUM); i++)
         t.push_back(indexes[i]);
     // 获取一次间接索引编号
-    if(indexSize >= BASIC_IDX)
+    if(indexSize >= DIRECTINDEXNUM)
     {
         vector<int> t1 = oneIndirectIndex.getIndexes();
         for(int i = 0; i < t1.size(); i++)
             t.push_back(t1[i]);
     }
     // 获取两次间接索引编号
-    if(indexSize >= BASIC_IDX + IDXT_SIZE)
+    if(indexSize >= DIRECTINDEXNUM + INDEXTABLESIZE)
     {
         int n = twoIndirectIndex.size();
         for(int i = 0; i < n; i++)
@@ -270,7 +270,7 @@ vector<int> MixIndex::getIndexes()
 
     }
     // 获取三次间接索引编号
-    if(indexSize >= BASIC_IDX + IDXT_SIZE + ONE_IDXT_SIZE)
+    if(indexSize >= DIRECTINDEXNUM + INDEXTABLESIZE + SECONDINDEXSIZE)
     {
         int n = threeIndirectIndex.size();
         for(int i = 0; i < n; i++)
@@ -293,23 +293,23 @@ void MixIndex::show()
 {
     cout << "——————————————————————————————\n";
     cout << "直接索引区：\n";
-    for(int i = 0; i < min(indexSize, BASIC_IDX); i++)
+    for(int i = 0; i < min(indexSize, DIRECTINDEXNUM); i++)
         cout << indexes[i] << " ";
     cout << "\n";
     cout << "一次间接索引区：";
-    if(indexSize >= BASIC_IDX)
+    if(indexSize >= DIRECTINDEXNUM)
     {
         oneIndirectIndex.show();
     }
     cout << "二次间接索引区：";
-    if(indexSize >= BASIC_IDX + IDXT_SIZE)
+    if(indexSize >= DIRECTINDEXNUM + INDEXTABLESIZE)
     {
         int n = twoIndirectIndex.size();
         for(int i = 0; i < n; i++)
             twoIndirectIndex.getNxtIndex(i).show();
     }
     cout << "三次间接索引区：";
-    if(indexSize >= BASIC_IDX + IDXT_SIZE + ONE_IDXT_SIZE)
+    if(indexSize >= DIRECTINDEXNUM + INDEXTABLESIZE + SECONDINDEXSIZE)
     {
         int n = threeIndirectIndex.size();
         for(int i = 0; i < n; i++)
@@ -327,11 +327,11 @@ int MixIndex::dropIndex()
 {
     if(indexSize <= 0)
         return -1;
-    else if(indexSize <= BASIC_IDX) // 直接索引
+    else if(indexSize <= DIRECTINDEXNUM) // 直接索引
         return dropDirectIndex();
-    else if(indexSize <= BASIC_IDX + IDXT_SIZE) // 一次间接索引
+    else if(indexSize <= DIRECTINDEXNUM + INDEXTABLESIZE) // 一次间接索引
         return dropOneInDirectIndex();
-    else if(indexSize <= BASIC_IDX + IDXT_SIZE + ONE_IDXT_SIZE) // 二次间接索引
+    else if(indexSize <= DIRECTINDEXNUM + INDEXTABLESIZE + SECONDINDEXSIZE) // 二次间接索引
         return dropTwoInDirectIndex();
     else
         return dropThreeInDirectIndex(); // 三次间接索引
@@ -358,12 +358,12 @@ int MixIndex::dropOneInDirectIndex()
 int MixIndex::dropTwoInDirectIndex()
 {
     // 计算超出前两部分的索引数量
-    int n = indexSize - BASIC_IDX - IDXT_SIZE - 1; //这里的减一非常重要！因为size是从1开始的，下标则是从0开始，导致除法时跳到下一个块
+    int n = indexSize - DIRECTINDEXNUM - INDEXTABLESIZE - 1; //这里的减一非常重要！因为size是从1开始的，下标则是从0开始，导致除法时跳到下一个块
     // 找到对应的二次间址索引块
-    int t = twoIndirectIndex.getNxtIndex(n / IDXT_SIZE).dropIndex();
+    int t = twoIndirectIndex.getNxtIndex(n / INDEXTABLESIZE).dropIndex();
     indexSize--;
     // 此处n的含义应是数量而不是下标，因此要把减一补偿回来
-    if((n + 1) % IDXT_SIZE == 1) // 如果删除的正好是二次间址索引块的最后一个索引
+    if((n + 1) % INDEXTABLESIZE == 1) // 如果删除的正好是二次间址索引块的最后一个索引
         twoIndirectIndex.dropNxtIndex(); // 把索引块也删除
     return t;
 }
@@ -372,15 +372,15 @@ int MixIndex::dropTwoInDirectIndex()
 int MixIndex::dropThreeInDirectIndex()
 {
     // 计算超出前三部分的索引数量
-    int n = indexSize - BASIC_IDX - IDXT_SIZE - ONE_IDXT_SIZE - 1;// 同上，一定要减一
+    int n = indexSize - DIRECTINDEXNUM - INDEXTABLESIZE - SECONDINDEXSIZE - 1;// 同上，一定要减一
     // 找到对应的三次间址索引块
-    int t = threeIndirectIndex.getNxtIndex(n / ONE_IDXT_SIZE).getNxtIndex((n % ONE_IDXT_SIZE) / IDXT_SIZE).dropIndex();
+    int t = threeIndirectIndex.getNxtIndex(n / SECONDINDEXSIZE).getNxtIndex((n % SECONDINDEXSIZE) / INDEXTABLESIZE).dropIndex();
     indexSize--;
     // 此处n的含义应是数量而不是下标，因此要把减一补偿回来
-    if(((n + 1) % ONE_IDXT_SIZE) % IDXT_SIZE == 1) // 如果删除的正好是三次间址索引块的最后一个索引
-        threeIndirectIndex.getNxtIndex(n / ONE_IDXT_SIZE).dropNxtIndex(); // 把这个三次间址索引块也删除
+    if(((n + 1) % SECONDINDEXSIZE) % INDEXTABLESIZE == 1) // 如果删除的正好是三次间址索引块的最后一个索引
+        threeIndirectIndex.getNxtIndex(n / SECONDINDEXSIZE).dropNxtIndex(); // 把这个三次间址索引块也删除
     // 此处n的含义应是数量而不是下标，因此要把减一补偿回来
-    if((n + 1) % ONE_IDXT_SIZE == 1) // 如果删除的正好是二次间址索引块的最后一个索引
+    if((n + 1) % SECONDINDEXSIZE == 1) // 如果删除的正好是二次间址索引块的最后一个索引
         threeIndirectIndex.dropNxtIndex(); // 把这个二次间址索引块也删除
     return t;
 }

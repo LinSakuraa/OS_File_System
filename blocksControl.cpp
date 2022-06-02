@@ -86,7 +86,7 @@ int superGroup::size() const                    //get the number of free block
 
 void superGroup::init()                         //init the superGroup
 {
-    for(int i = 0; i < TOTAL_GROUP_SIZE / GROUP_SIZE; i++)   // 500/50
+    for(int i = 0; i < TOTALGROUPSIZE / GROUPSIZE; i++)   // 500/50
     {
         GroupLeader* t;
         if(i == 0)              // Assign the first declared leader block to the current superblock
@@ -100,9 +100,9 @@ void superGroup::init()                         //init the superGroup
             t->setNextLeader(t1);
             t = t1;
         }
-        for(int j = GROUP_SIZE; j >= 1 ; j--)
+        for(int j = GROUPSIZE; j >= 1 ; j--)
         {
-            t->add(i * GROUP_SIZE + j);
+            t->add(i * GROUPSIZE + j);
         }
     }
 }

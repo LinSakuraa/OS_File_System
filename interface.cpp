@@ -44,6 +44,7 @@ void OS::printTitle()
 void OS::run()
 {
     string cmd;
+    int i = 1;
     while (true) {
         printTitle();
         cin >> cmd;
@@ -58,6 +59,23 @@ void OS::run()
                 cout << "welcome " << username << endl;
             else
                 cout << "wrong username or password" << endl;
+        } else if(cmd == "register") {
+            string username,password = "";
+            cout << "username:";
+            cin >> username;
+            cout << "password:";
+            cin >> password;
+            bool status = fileSys.users.createUser(username,password);
+            if(status)
+            {
+                fileSys.users.createUser(username, password);
+                int j = fileSys.createUserDirectory(username);
+                fileSys.users.userList[i].setCurDir(&(fileSys.superBlock.iNodeList.getInode(j).dir));
+                i ++;
+                fileSys.users.saveUser();
+                cout << "register successful !" << endl;
+            }
+            else cout << "register failed !" << endl;
         } else if(cmd == "cd") { // enter directory
             string index;
             cin >> index;

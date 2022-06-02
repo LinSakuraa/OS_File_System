@@ -17,10 +17,10 @@ class superBlock{
 private:
 
 public:
-    int iNodeNum = INODE_NUM;           //total num of i node
-    int freeNode = INODE_NUM;           //num of free i node
-    int disk = TOTAL_GROUP_SIZE;        //total num of disk blocks
-    int freeDisk = TOTAL_GROUP_SIZE;    //num of free disk blocks
+    int iNodeNum = INODENUM;           //total num of i node
+    int freeNode = INODENUM;           //num of free i node
+    int disk = TOTALGROUPSIZE;        //total num of disk blocks
+    int freeDisk = TOTALGROUPSIZE;    //num of free disk blocks
     INodeList iNodeList;
     superGroup superGroup;
     //functions

@@ -11,7 +11,7 @@
 #ifndef OS_BETA_NODELIST_H
 #define OS_BETA_NODELIST_H
 
-extern bool iNodeDistributeList[INODE_NUM];
+extern bool iNodeDistributeList[INODENUM];
 
 class INode{
 private:
@@ -54,7 +54,7 @@ public:
 class INodeList{
 public:
     int iNodeSize = 0;                   //number of inodes used
-    INode inodeList[INODE_NUM];
+    INode inodeList[INODENUM];
     int getFreeInodeNum();               //get empty inode number
     bool addNewINode(INode A, int i);
     void freeInvalidInode(int pos);

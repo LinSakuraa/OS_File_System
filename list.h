@@ -14,11 +14,11 @@ using namespace std;
 class INodeListInRam {
 
 private:
-    const int iNodeListCapacity = INODET_IN_RAM;    // inode capacity
+    const int iNodeListCapacity = MAXINODETNUM;    // inode capacity
     int iNodeListSize = 0;                          // inode list size
-    INode iNodeList[INODET_IN_RAM];                 // arraylist of inode
-    int iNodeNum[INODET_IN_RAM];
-    int fileLock[INODET_IN_RAM];                    // file lock: 1 read lock, 2 write lock
+    INode iNodeList[MAXINODETNUM];                 // arraylist of inode
+    int iNodeNum[MAXINODETNUM];
+    int fileLock[MAXINODETNUM];                    // file lock: 1 read lock, 2 write lock
 
 public:
     INodeListInRam();                               // init node
@@ -59,9 +59,9 @@ public:
 class FileOpenList {
 
 private:
-    const int fileOpenCapacity = MAX_FDS;       // max size of system file list
+    const int fileOpenCapacity = SYSTEMFILEMAXNUM;       // max size of system file list
     int fileOpenSize = 0;                       // current number of system file list
-    FileOpenItem fileOpenList[MAX_FDS];         // file item
+    FileOpenItem fileOpenList[SYSTEMFILEMAXNUM];         // file item
 
 public:
     void clear();                                           // reset open size
@@ -98,7 +98,7 @@ class UserOpenList {
 
 private:
     string username;
-    UserOpenItem iNodeToFile[MAX_USER_FD];
+    UserOpenItem iNodeToFile[USERFILEMAXNUM];
 
 public:
     UserOpenList();

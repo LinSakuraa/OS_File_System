@@ -93,15 +93,15 @@ void superBlock::deleteFileAndDirectory()
 //file system functions
 void fileSystem::createFile(const string &fileName)
 {
-    Directory* cur_dir = users.getCurDir();
-    if(cur_dir != nullptr)
+    Directory* curDir = users.getCurDir();
+    if(curDir != nullptr)
     {
-        if(cur_dir->checkItem(fileName))
+        if(curDir->checkItem(fileName))
         {
             cout << "the file '" << fileName << "' has already existed"<<endl;
             return ;
         }
-        if(superBlock.createFile(fileName, cur_dir))
+        if(superBlock.createFile(fileName, curDir))
         {
             openFile(fileName, 0, 1);
             cout << "create successfully"<<endl;
@@ -123,7 +123,7 @@ void fileSystem::saveInodeInfo()
     {
         file<<i<<endl;
     }
-    for(int i=0; i<INODE_NUM; i++)
+    for(int i=0; i < INODENUM; i++)
     {
         if(iNodeDistributeList[i])
         {
@@ -159,7 +159,7 @@ void fileSystem::readInodeInfo()
         else
             i = false;
     }
-    for(int i=0; i<INODE_NUM; i++)
+    for(int i=0; i < INODENUM; i++)
     {
         if(iNodeDistributeList[i])
         {
@@ -415,7 +415,7 @@ bool fileSystem::writeFile(string fileName, string content)
     string in2 = iNodeListInRam.getNode(id).content.substr(offset, iNodeListInRam.getNode(id).content.size() - offset);
     string out = in1 + content + in2;
     iNodeListInRam.getNode(id).content = out;
-    int n = (int)ceil((double)(sizeof(out) - iNodeListInRam.getNode(id).size()) / (double) BLOCK_SIZE);
+    int n = (int)ceil((double)(sizeof(out) - iNodeListInRam.getNode(id).size()) / (double) BLOCKSIZE);
     while(n > 0)
     {
         int bid = superBlock.superGroup.getFreeBlock();
@@ -558,12 +558,9 @@ int fileSystem::createUserDirectory(string userName)
 void fileSystem::init()
 {
     createRootDirectory();
-    users.createUser("user", "user");
-    users.createUser("sakura", "sakura");       //accessible
-    int i = createUserDirectory("user");
-    int j = createUserDirectory("sakura");
+    users.createUser("admin", "admin");
+    int i = createUserDirectory("admin");
     users.userList[0].setCurDir(&(superBlock.iNodeList.getInode(i).dir));
-    users.userList[1].setCurDir(&(superBlock.iNodeList.getInode(j).dir));
 }
 void fileSystem::cd(string directoryName)
 {

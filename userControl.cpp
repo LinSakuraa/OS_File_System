@@ -101,11 +101,14 @@ bool Users::isExistedAuthor(const string &username) {
 }
 
 // create a new user
-void Users::createUser(const string& username, const string& password) {
+bool Users::createUser(const string& username, const string& password) {
     if(!isExistedAuthor(username)) {
         User tmp(username, password);
         userList.push_back(tmp);
         userListSize++;
+        return true;
+    } else {
+        return false;
     }
 }
 

@@ -8,7 +8,7 @@ using namespace std;
 INode cache;
 string cacheFilename;
 
-bool iNodeDistributeList[INODE_NUM];
+bool iNodeDistributeList[INODENUM];
 
 INode::INode(){}
 
@@ -82,7 +82,7 @@ int INode::differ()          //the change of inode
     else
         t = sizeof(content) - fileLen;
     fileLen = t;
-    return (int)ceil((double)t / (double)BLOCK_SIZE);
+    return (int)ceil((double)t / (double)BLOCKSIZE);
 }
 
 int INode::freeBlock()                //remove a block
@@ -140,7 +140,7 @@ int INode::check()                         //the count of one inode
 
 int INodeList::getFreeInodeNum()
 {
-    for(int i=0; i<INODE_NUM; i++)
+    for(int i=0; i < INODENUM; i++)
     {
         if(!iNodeDistributeList[i])
             return i;

@@ -45,7 +45,7 @@ public:
     int calculateFileSize(const string& filename);                      // calculate file size
     void readUserList();                                                // read user list
     bool isExistedAuthor(const string& username);                       // determine whether the user exists
-    void createUser(const string& username, const string& password);    // create a new user
+    bool createUser(const string& username, const string& password);    // create a new user
     void saveUser();                                                    // save user
     bool login(string username, string password);                       // user login
     int searchUser(string username);                                    // search user
