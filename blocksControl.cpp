@@ -89,7 +89,7 @@ void superGroup::init()                         //init the superGroup
     for(int i = 0; i < TOTALGROUPSIZE / GROUPSIZE; i++)   // 500/50
     {
         GroupLeader* t;
-        if(i == 0)              // Assign the first declared leader block to the current superblock
+        if(i == 0)              // Assign the first declared leader block to the current super block
         {
             t = new GroupLeader;
             curGroup = t;

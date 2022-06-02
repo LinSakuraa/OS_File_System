@@ -65,7 +65,7 @@ extern string getCurrentTime()
     return current_time;
 }
 
-//获取本地电脑主机名，用来进行菜单显示
+
 extern string getLocalIpName() {
     TCHAR buf[MAX_COMPUTERNAME_LENGTH + 2];
     DWORD buf_size;

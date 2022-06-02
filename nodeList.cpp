@@ -27,14 +27,7 @@ INode::INode(const INode &A)
 }
 
 INode::INode(int type, string setTime, string updateTime, string username, int fileLen, int diskSize, int i_Nlink, string content)
-        : type(type)
-        , setTime(setTime)
-        , updateTime(updateTime)
-        , username(username)
-        , fileLen(fileLen)
-        , diskSize(diskSize)
-        , iNlink(i_Nlink)
-        , content(content)
+        : type(type),setTime(setTime),updateTime(updateTime),username(username),fileLen(fileLen),diskSize(diskSize),iNlink(i_Nlink),content(content)
 {
 
 }
