@@ -11,98 +11,56 @@
 #ifndef OS_BETA_NODELIST_H
 #define OS_BETA_NODELIST_H
 
-//位示图
 extern bool iNodeDistributeList[INODE_NUM];
 
 class INode{
 private:
-    //存储i结点属于的用户名称
-    string username = "";
-    //表示i结点存储的类型，是文件还是目录，文件是0，目录是1
-    int type = -1;
-    // 硬连接数
-    int iNlink = 0;
-    //存储i结点对应的文件的文件长度(返回是一个字节数)
-    int fileLen = 0;
-    //存储i结点对应文件所占用的磁盘块数
-    int diskSize = 0;
-    //i结点对应文件/目录的创建时间
+    string username = "";    //the user of i
+    int type = -1;           //init the type (file 0,directory 1)
+    int iNlink = 0;          //the count of inode
+    int fileLen = 0;          // the length of file
+    int diskSize = 0;        //the count of disk of the inode of the file
     string setTime = "";
-    //i结点对应文件最近一次更新的时间
     string updateTime = "";
-    // 指向混合索引表
-    MixIndex indexT;
+    MixIndex indexT;          //the mixIndex
 
 public:
-    //每个i结点存一个目录索引，如果是文件则置空即可
-    Directory dir;
-    // 如果是普通文件话存储文件内容
-    string content;
-
+    Directory dir;            //if directory is new dir,if file is null
+    string content;           //the content of file
     INode();
-    //复制构造函数，方便将i节点表copy到内存的i结点表中
-    INode(const INode &A);
-    // 赋值构造函数
+    INode(const INode &A);    //copy inode to inodeList
     INode(int type, string setTime, string updateTime, string username, int fileLen = 0, int diskSize = 0, int i_Nlink = 0, string content = "");
-    //重载等号运算符，返回一个引用对象
     INode &operator=(const INode& B);
-    //更新i结点的相关信息
-    void updateFileSize();
-    // 返回文件大小
+    void updateFileSize();    //update the fileSize of inode
     int size() const;
-
-    int disksize();
-    // 返回文件变化情况
-    int differ();
-    // 移除一个块
-    int freeBlock();
-    // 添加一个块
-    bool addBlock(int id);
-    // 获取块数
-    int num();
-    // 获取用户名
+    int disksize();           //the diskSize
+    int differ();             //the change
+    int freeBlock();          //free a block
+    bool addBlock(int id);    //add a block
+    int num();                //the num of disk
     string getUser();
-    // 清空inode
     void clear();
-
     void show();
-
     void addLink();
-
     bool delLink();
-    // 获取硬连接数
     int check();
-    //计算i结点对应文件内容的大小
     int calculateFileSize(const string& filename);
-    //判断当前用户是否有打开i结点的权限
-    bool inodeIsAuthor(string username);
-    //为了存储i结点声明的转换成字符串的方法
+    bool inodeIsAuthor(string username);    //judge user permissions
     string saveAsString();
-    //获得i结点的type类型
-    int getType();
-    //为i结点的所占的磁盘块区的编号进行索引存储
-    void saveDiskNumber(const vector<int>& numberSet);
+    int getType();                          //get the type of inode
+    void saveDiskNumber(const vector<int>& numberSet);   //save diskNumber to IndexT
 };
 
-//i结点表，存储在内存中
 class INodeList{
 public:
-    // 已使用的i结点数量
-    int iNodeSize = 0;
-    //i结点表，在初次进入程序之后获取i结点表
+    int iNodeSize = 0;                   //number of inodes used
     INode inodeList[INODE_NUM];
-    //获取空i结点号码
-    int getFreeInodeNum();
-    //添加新节点
+    int getFreeInodeNum();               //get empty inode number
     bool addNewINode(INode A, int i);
-    //释放一个不用的i结点
     void freeInvalidInode(int pos);
-    //获取某个i结点的信息
     void getSpecificInodeInfo(int pos);
-    //更新i结点
-    void updateInode(int id, INode ano);
-    // 获取某个i结点
-    INode& getInode(int id);
+    void updateInode(int id, INode ano);   //update the inode
+    INode& getInode(int id);              //get the inode
 };
 
 extern INode cache;

@@ -8,11 +8,10 @@ using namespace std;
 INode cache;
 string cacheFilename;
 
-//模拟i结点的位示图，用来分配的时候查看i结点的空闲情况
 bool iNodeDistributeList[INODE_NUM];
 
 INode::INode(){}
-//复制构造函数，方便将i节点表copy到内存的i结点表中
+
 INode::INode(const INode &A)
 {
     type = A.type;
@@ -26,7 +25,7 @@ INode::INode(const INode &A)
     content = A.content;
     indexT = A.indexT;
 }
-// 赋值构造函数
+
 INode::INode(int type, string setTime, string updateTime, string username, int fileLen, int diskSize, int i_Nlink, string content)
         : type(type)
         , setTime(setTime)
@@ -39,7 +38,7 @@ INode::INode(int type, string setTime, string updateTime, string username, int f
 {
 
 }
-//重载等号运算符，返回一个引用对象
+
 INode& INode::operator=(const INode& B)
 {
     this->dir = B.dir;
@@ -54,15 +53,15 @@ INode& INode::operator=(const INode& B)
     this->indexT = B.indexT;
     return *this;
 }
-//更新i结点的相关信息
-void INode::updateFileSize()
+
+void INode::updateFileSize()      //update the size of file
 {
     if(type == 1)
         fileLen = sizeof(dir);
     else
         fileLen = sizeof(content);
 }
-// 返回文件大小
+
 int INode::size() const
 {
     return fileLen;
@@ -71,8 +70,8 @@ int INode::disksize()
 {
     return diskSize;
 }
-// 返回文件变化情况
-int INode::differ()
+
+int INode::differ()          //the change of inode
 {
     int t;
     if(type == 1)
@@ -86,46 +85,46 @@ int INode::differ()
     fileLen = t;
     return (int)ceil((double)t / (double)BLOCK_SIZE);
 }
-// 移除一个块
-int INode::freeBlock()
+
+int INode::freeBlock()                //remove a block
 {
     return indexT.dropIndex();
 }
-// 添加一个块
+
 bool INode::addBlock(int id)
 {
     return (indexT.addIndex(id)) ? (diskSize++, true):(false);
 }
-// 获取块数
-int INode::num()
+
+int INode::num()                     //get the number of disk
 {
     return diskSize;
 }
-// 获取用户名
+
 string INode::getUser()
 {
     return username;
 }
-// 清空inode
+
 void INode::clear()
 {
     type = -1;
     dir.clear();
     fileLen = 0;
     diskSize = 0;
-//        setTime = ;
+//  setTime = ;
     username = "";
     iNlink = 0;
     content = "";
     indexT.clear();
 }
-//更新i结点
+
 void INodeList::updateInode(int id, INode ano)
 {
     inodeList[id] = ano;
 }
-//计算i结点对应文件内容的大小
-int INode::calculateFileSize(const string& filename)
+
+int INode::calculateFileSize(const string& filename)        //calculate the size of File
 {
     ifstream file(filename);
     if(!file.is_open())
@@ -134,13 +133,13 @@ int INode::calculateFileSize(const string& filename)
     file >> noskipws >> t;
     return t.size();
 }
-//获取硬连接数
-int INode::check()
+
+int INode::check()                         //the count of one inode
 {
     return iNlink;
 }
-// 获取i节点表的空闲项编号
-int INodeList::getFreeInodeNum()
+
+int INodeList::getFreeInodeNum()          //
 {
     for(int i=0; i<INODE_NUM; i++)
     {
@@ -149,13 +148,12 @@ int INodeList::getFreeInodeNum()
     }
     return -1;
 }
-// 添加新的i结点
+
 bool INodeList::addNewINode(INode A, int i) {
     inodeList[i] = A;
     iNodeSize++;
     return true;
 }
-
 
 void INodeList::freeInvalidInode(int pos) {
     iNodeDistributeList[pos] = false;
@@ -173,8 +171,8 @@ void INode::show()
     indexT.show();
 }
 
-//显示所有i结点的信息
-void INodeList::getSpecificInodeInfo(int pos) {
+
+void INodeList::getSpecificInodeInfo(int pos) {              //show the information of inodeList
     //type == 0表示该i结点为一个文件， type == 1表示该i结点为一个目录
     cout << "the relevant info are as below:" << endl;
     cout << "the size of inode is " << inodeList[pos].size() << endl;

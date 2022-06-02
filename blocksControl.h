@@ -10,49 +10,31 @@
 
 using namespace std;
 
-// 组长块
 class GroupLeader{
 private:
-    // 组容量上限
-    int groupCapacity = GROUP_SIZE;
-    // 组实际大小
-    int groupSize = 0;
-    // 下一个组长块
-    GroupLeader* nextLeader;
-    // 组内的块
+    int groupCapacity = GROUP_SIZE;       //50 maximum group capacity
+    int groupSize = 0;                    //the size of group
+    GroupLeader* nextLeader;              //next leader block
     stack<int> groups;
 
 public:
-    // 构造函数
     GroupLeader();
-    // 使用指针构造函数
     GroupLeader(GroupLeader* ano);
-    // 复制构造函数
     GroupLeader(GroupLeader& ano);
-    // 获取当前组大小
     int size() const;
-    // 获取一个空闲块的块号
-    int get();
-    // 往组里添加一个空闲块
+    int get();                               //get the block number of a free block
     bool add(int id);
-    //返回自身的地址
     GroupLeader* self();
-    //返回下一个组长块地址
     GroupLeader* nextSelf();
-    // 设置组长块;
-    bool setNextLeader(GroupLeader*);
+    bool setNextLeader(GroupLeader*);       //set next leader block
 };
 
-//超级块
 class superGroup{
 private:
-    // 超级栈中当前的组长块
     GroupLeader* curGroup;
-    // 当前总共可用的空闲块
-    int groupTotalSize = TOTAL_GROUP_SIZE;
+    int groupTotalSize = TOTAL_GROUP_SIZE;   //500  free block
 
 public:
-    // 获得一个空闲块
     int getFreeBlock();
     // 返回一个被释放的块
     bool addNewBlock(int id);

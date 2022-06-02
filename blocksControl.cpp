@@ -4,27 +4,23 @@
 
 #include "blocksControl.h"
 
-// 构造函数
 GroupLeader::GroupLeader():nextLeader(nullptr){}
 
 GroupLeader::GroupLeader(GroupLeader* ano):nextLeader(ano){}
 
-// 复制构造函数
-GroupLeader::GroupLeader(GroupLeader& ano)
+GroupLeader::GroupLeader(GroupLeader& ano)        //copy
 {
     this->groupSize = ano.groupSize;
     this->nextLeader = ano.nextLeader;
     this->groups = ano.groups;
 }
 
-// 获取当前组大小
 int GroupLeader::size() const
 {
     return groupSize;
 }
 
-// 获取一个空闲块的块号
-int GroupLeader::get()
+int GroupLeader::get()             //get the block number of a free block
 {
     int t = groups.top();
     groups.pop();
@@ -32,7 +28,6 @@ int GroupLeader::get()
     return t;
 }
 
-// 往组里添加一个空闲块
 bool GroupLeader::add(int id)
 {
     if(groupSize >= groupCapacity) // 当前组已满
@@ -45,26 +40,22 @@ bool GroupLeader::add(int id)
     }
 }
 
-//返回自身的地址
-GroupLeader* GroupLeader::self()
+GroupLeader* GroupLeader::self()           //return the self
 {
     return this;
 }
 
-//返回下一个组长块地址
 GroupLeader* GroupLeader::nextSelf()
 {
     return nextLeader;
 }
 
-// 设置下一个组长块
-bool GroupLeader::setNextLeader(GroupLeader* ano)
+bool GroupLeader::setNextLeader(GroupLeader* ano)   //Set next leader block
 {
     nextLeader = ano;
     return true;
 }
 
-// 获得一个空闲块
 int superGroup::getFreeBlock()
 {
     if(groupTotalSize <= 0)
@@ -76,8 +67,7 @@ int superGroup::getFreeBlock()
     return t;
 }
 
-// 返回一个被释放的块
-bool superGroup::addNewBlock(int id)
+bool superGroup::addNewBlock(int id)        //Return a freed block
 {
     if(curGroup->size() >= 50)
     {
@@ -89,41 +79,38 @@ bool superGroup::addNewBlock(int id)
     return true;
 }
 
-// 获取总空闲块数
-int superGroup::size() const
+int superGroup::size() const               //get the number of free block
 {
     return groupTotalSize;
 }
 
-// 初始化超级栈
-void superGroup::init()
+void superGroup::init()                    //init the superGroup
 {
-    for(int i = 0; i < TOTAL_GROUP_SIZE / GROUP_SIZE; i++)
+    for(int i = 0; i < TOTAL_GROUP_SIZE / GROUP_SIZE; i++)   // 500/50
     {
-        GroupLeader* t; // 声明工作变量
-        if(i == 0) // 将最先声明的组长块赋给当前超级块
+        GroupLeader* t;
+        if(i == 0) // Assign the first declared leader block to the current superblock
         {
             t = new GroupLeader;
             curGroup = t;
         }
         else
         {
-            auto *t1 = new GroupLeader; // 声明新的组长块
-            t->setNextLeader(t1); // 链接到上一轮的组长块
-            t = t1; // 交换变量
+            auto *t1 = new GroupLeader; // new groupLeader
+            t->setNextLeader(t1);
+            t = t1;
         }
-        for(int j = GROUP_SIZE; j >= 1 ; j--) // 给每一组链接空闲块
+        for(int j = GROUP_SIZE; j >= 1 ; j--)
         {
             t->add(i * GROUP_SIZE + j);
         }
     }
 }
 
-// 显示信息
-void superGroup::show()
+void superGroup::show()                     //show the information
 {
     int i;
-    cout << "当前超级栈容量为" << curGroup->size() << endl;
-    cout << "栈顶空闲块块号为" << (i = getFreeBlock()) << endl;
+    cout << "the size of superGroup" << curGroup->size() << endl;
+    cout << "the free block in the top of stack" << (i = getFreeBlock()) << endl;
     addNewBlock(i);
 }
