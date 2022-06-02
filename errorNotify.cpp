@@ -69,6 +69,8 @@ extern void directoryError(int optimizer)
             break;
         case 2: cout<<"no such directory"<<endl;
             break;
+        case 3: cout<<"already have this directory"<<endl;
+            break;
     }
 }
 extern void cdError(int optimizer)
