@@ -30,7 +30,7 @@ int GroupLeader::get()             //get the block number of a free block
 
 bool GroupLeader::add(int id)
 {
-    if(groupSize >= groupCapacity) // 当前组已满
+    if(groupSize >= groupCapacity)
         return false;
     else
     {
@@ -40,7 +40,7 @@ bool GroupLeader::add(int id)
     }
 }
 
-GroupLeader* GroupLeader::self()           //return the self
+GroupLeader* GroupLeader::self()                //return the self
 {
     return this;
 }
@@ -50,7 +50,7 @@ GroupLeader* GroupLeader::nextSelf()
     return nextLeader;
 }
 
-bool GroupLeader::setNextLeader(GroupLeader* ano)   //Set next leader block
+bool GroupLeader::setNextLeader(GroupLeader* ano)       //Set next leader block
 {
     nextLeader = ano;
     return true;
@@ -67,7 +67,7 @@ int superGroup::getFreeBlock()
     return t;
 }
 
-bool superGroup::addNewBlock(int id)        //Return a freed block
+bool superGroup::addNewBlock(int id)            //Return a freed block
 {
     if(curGroup->size() >= 50)
     {
@@ -79,24 +79,24 @@ bool superGroup::addNewBlock(int id)        //Return a freed block
     return true;
 }
 
-int superGroup::size() const               //get the number of free block
+int superGroup::size() const                    //get the number of free block
 {
     return groupTotalSize;
 }
 
-void superGroup::init()                    //init the superGroup
+void superGroup::init()                         //init the superGroup
 {
     for(int i = 0; i < TOTAL_GROUP_SIZE / GROUP_SIZE; i++)   // 500/50
     {
         GroupLeader* t;
-        if(i == 0) // Assign the first declared leader block to the current superblock
+        if(i == 0)              // Assign the first declared leader block to the current superblock
         {
             t = new GroupLeader;
             curGroup = t;
         }
         else
         {
-            auto *t1 = new GroupLeader; // new groupLeader
+            auto *t1 = new GroupLeader;         // new groupLeader
             t->setNextLeader(t1);
             t = t1;
         }
@@ -107,7 +107,7 @@ void superGroup::init()                    //init the superGroup
     }
 }
 
-void superGroup::show()                     //show the information
+void superGroup::show()                         //show the information
 {
     int i;
     cout << "the size of superGroup" << curGroup->size() << endl;

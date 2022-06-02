@@ -13,5 +13,4 @@ using namespace std;
 extern string getCurrentTime();
 extern void helpList(int optimizer);
 extern string getLocalIpName();
-extern int statistic(string filename);
 #endif //OS_BETA_AYXILIARYMOD_H

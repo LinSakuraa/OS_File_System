@@ -76,7 +76,6 @@ int INode::differ()          //the change of inode
     int t;
     if(type == 1)
     {
-//        cout << "sizeof dir = " << sizeof(dir) << " filelen = " << fileLen << endl;
         t = sizeof(dir) - fileLen;
     }
 
@@ -139,7 +138,7 @@ int INode::check()                         //the count of one inode
     return iNlink;
 }
 
-int INodeList::getFreeInodeNum()          //
+int INodeList::getFreeInodeNum()
 {
     for(int i=0; i<INODE_NUM; i++)
     {
@@ -173,16 +172,9 @@ void INode::show()
 
 
 void INodeList::getSpecificInodeInfo(int pos) {              //show the information of inodeList
-    //type == 0表示该i结点为一个文件， type == 1表示该i结点为一个目录
     cout << "the relevant info are as below:" << endl;
     cout << "the size of inode is " << inodeList[pos].size() << endl;
     cout << "the type of inode is" << inodeList[pos].getType() << endl;
-//    if(inodeList[pos].getType() == 0){
-//        cout << "the inode is stored as a file" << endl;
-//    }
-//    else if (inodeList[pos].getType() == 1){
-//        cout << "the inode is stored as a directory" << endl;
-//    }
     cout << "the inode belongs to " << inodeList[pos].getUser() << endl;
     cout << "the length of inode is" << inodeList[pos].size() << endl;
     cout << "the block num of inode is" << inodeList[pos].num() << endl;
@@ -201,15 +193,6 @@ string INode::saveAsString() {
     ans =  username + "\n" + to_string(type) + "\n" +
            to_string(iNlink) + "\n" + to_string(fileLen) + "\n"
            + to_string(diskSize) + "\n" + setTime + updateTime;
-    //ans +=  "aaa:" + (to_string(dir.size()) + '\n');
-//    vector<int> tmp = indexT.getIndexes();
-//    ans += tmp.size() + "\n";
-//    ans += "\n---------------------\n";
-//    for(int i : tmp){
-//        ans += to_string(i);
-//        ans += '\n';
-//    }
-//    ans += "\n---------------------\n";
     return ans;
 }
 

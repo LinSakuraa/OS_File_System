@@ -7,7 +7,6 @@
 #include <tchar.h>
 #include <iostream>
 #include <string>
-#include <cstdio>
 using namespace std;
 
 extern void helpList(int optimizer)
