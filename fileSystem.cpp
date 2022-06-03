@@ -795,11 +795,11 @@ void fileSystem::cut(string fileName)
         fileError(1);
         return;
     }
-    if(!superBlock.iNodeList.getInode(id).getType() == 1)
+    /*if(superBlock.iNodeList.getInode(id).getType() == 1)
     {
         clipboardError(3);
         return;
-    }
+    }*/
     if(!superBlock.iNodeList.getInode(id).inodeIsAuthor(currentUser))
     {
         authenticateError(1);
